@@ -1,0 +1,469 @@
+{
+  "project": {
+    "projectSettingsVersion": "2.0.0",
+    "creationData": {
+      "type": "Import",
+      "projectTypeName": "com.intel.xdk.projecttype.jsapp",
+      "src": "",
+      "projectGuid": "ca841490-4d7c-4f67-80b0-c457ed40bade",
+      "lastModifiedDate": 1453329037447,
+      "creationDate": 1453315519297
+    },
+    "sourceDirectory": "www",
+    "cordovaPluginsDirectory": "plugins",
+    "gameAssetDirectory": "asset",
+    "gameMetadata": {},
+    "testDirectory": "test",
+    "startFile": "index.html",
+    "projectTags": [],
+    "projectFiles": {},
+    "projectDirectories": {
+      "xdk": {
+        "settings": {
+          "project": {
+            "XDK-generated": "true"
+          }
+        }
+      }
+    },
+    "libraries": [],
+    "cordovaPlugins": [
+      {
+        "id": "com.jsmobile.plugins.sms",
+        "name": "sms",
+        "version": "0.0.1",
+        "originType": "cordova.io",
+        "origin": "com.jsmobile.plugins.sms",
+        "gitref": "",
+        "paramvals": {},
+        "sourceLocation": "plugins/com.jsmobile.plugins.sms",
+        "selectedState": "Included",
+        "checksum": "e5531a20",
+        "dependsOn": [],
+        "topLevel": true,
+        "permissions": {
+          "android:name": [
+            "android.permission.SEND_SMS"
+          ]
+        },
+        "description": "A plugin for sending sms messages",
+        "data": {},
+        "dependedBy": [],
+        "custom": "true"
+      },
+      {
+        "id": "cordova-plugin-device",
+        "name": "Device",
+        "version": "1.1.1",
+        "originType": "cordova.io",
+        "origin": "cordova-plugin-device",
+        "gitref": "",
+        "paramvals": {},
+        "sourceLocation": "plugins/cordova-plugin-device",
+        "selectedState": "Included",
+        "checksum": "927290ca",
+        "dependsOn": [],
+        "topLevel": true,
+        "permissions": {},
+        "description": "Cordova Device Plugin",
+        "data": {},
+        "dependedBy": []
+      },
+      {
+        "id": "cordova-plugin-dialogs",
+        "name": "Notification",
+        "version": "1.2.0",
+        "originType": "cordova.io",
+        "origin": "cordova-plugin-dialogs",
+        "gitref": "",
+        "paramvals": {},
+        "sourceLocation": "plugins/cordova-plugin-dialogs",
+        "selectedState": "Included",
+        "checksum": "1af74557",
+        "dependsOn": [],
+        "topLevel": true,
+        "permissions": {},
+        "description": "Cordova Notification Plugin",
+        "data": {},
+        "dependedBy": []
+      },
+      {
+        "id": "cordova-plugin-whitelist",
+        "name": "Whitelist",
+        "version": "1.2.0",
+        "originType": "cordova.io",
+        "origin": "cordova-plugin-whitelist",
+        "gitref": "",
+        "paramvals": {},
+        "sourceLocation": "plugins/cordova-plugin-whitelist",
+        "selectedState": "Included",
+        "checksum": "79b62cb1",
+        "dependsOn": [],
+        "topLevel": true,
+        "permissions": {},
+        "description": "Cordova Network Whitelist Plugin",
+        "data": {},
+        "dependedBy": [],
+        "custom": "true"
+      }
+    ],
+    "serviceMethods": [],
+    "buildConfigurations": {
+      "Android": {
+        "platform_": "android",
+        "runtime_": "Cordova 3.x",
+        "name_": "Android",
+        "preferences_": {
+          "android-minSdkVersion": "14",
+          "android-targetSdkVersion": "19",
+          "android-installLocation": "auto"
+        },
+        "isActive_": true,
+        "appName_": "Sein",
+        "appID_": "com.pontura.sein",
+        "appAccess_": {
+          "mode": "legacy",
+          "network": [
+            "*"
+          ],
+          "intents": [],
+          "navigation": []
+        },
+        "icons_": [],
+        "splashes_": [],
+        "addlPermissions_": "",
+        "excludedLibraries_": "",
+        "appVersion_": "0.0.1",
+        "appVersionCode_": "1",
+        "crosswalkVersion_": "14",
+        "cordovaCLIVersion_": "5.1.1",
+        "appDescription_": "Aplicación para estacionamiento medido",
+        "appAuthor_": "Yaguar Studio"
+      },
+      "Android-Crosswalk": {
+        "platform_": "android",
+        "runtime_": "Crosswalk with Cordova 3.x",
+        "name_": "Android-Crosswalk",
+        "preferences_": {
+          "android-minSdkVersion": "14",
+          "android-targetSdkVersion": "19",
+          "android-installLocation": "auto"
+        },
+        "isActive_": true,
+        "appName_": "Elinpar_Sein",
+        "appID_": "not.yet.specified",
+        "appAccess_": {
+          "mode": "legacy",
+          "network": [
+            "*"
+          ],
+          "intents": [],
+          "navigation": []
+        },
+        "icons_": [],
+        "splashes_": [],
+        "addlPermissions_": "",
+        "excludedLibraries_": "",
+        "appVersion_": "0.0.1",
+        "appVersionCode_": "1",
+        "crosswalkVersion_": "15",
+        "cordovaCLIVersion_": "5.1.1"
+      },
+      "iOS": {
+        "platform_": "ios",
+        "runtime_": "Cordova 3.x",
+        "name_": "iOS",
+        "preferences_": {
+          "ios-target": "8.0",
+          "ios-configuration": "adhoc",
+          "Fullscreen": true,
+          "exit-on-suspend": false
+        },
+        "isActive_": true,
+        "appName_": "Sein",
+        "appID_": "com.pontura.sein",
+        "appAccess_": {
+          "mode": "legacy",
+          "network": [
+            "*"
+          ],
+          "intents": [],
+          "navigation": []
+        },
+        "icons_": [
+          {
+            "relPath": "img/logo29x29.png",
+            "height": 29,
+            "width": 29
+          },
+          {
+            "relPath": "img/logo58x58.png",
+            "height": 58,
+            "width": 58
+          },
+          {
+            "relPath": "img/logo87x87.png",
+            "height": 87,
+            "width": 87
+          },
+          {
+            "relPath": "img/logo60x60.png",
+            "height": 60,
+            "width": 60
+          },
+          {
+            "relPath": "img/logo120x120.png",
+            "height": 120,
+            "width": 120
+          },
+          {
+            "relPath": "img/logo180x180.png",
+            "height": 180,
+            "width": 180
+          },
+          {
+            "relPath": "img/logo152x152.png",
+            "height": 152,
+            "width": 152
+          },
+          {
+            "relPath": "img/logo40x40.png",
+            "height": 40,
+            "width": 40
+          },
+          {
+            "relPath": "img/logo80x80.png",
+            "height": 80,
+            "width": 80
+          },
+          {
+            "relPath": "img/logo57x57.png",
+            "height": 57,
+            "width": 57
+          },
+          {
+            "relPath": "img/logo114x114.png",
+            "height": 114,
+            "width": 114
+          },
+          {
+            "relPath": "img/logo72x72.png",
+            "height": 72,
+            "width": 72
+          },
+          {
+            "relPath": "img/logo144x144.png",
+            "height": 144,
+            "width": 144
+          },
+          {
+            "relPath": "img/logo50x50.png",
+            "height": 50,
+            "width": 50
+          },
+          {
+            "relPath": "img/logo100x100.png",
+            "height": 100,
+            "width": 100
+          },
+          {
+            "relPath": "img/logo76x7.png",
+            "height": 76,
+            "width": 76
+          }
+        ],
+        "splashes_": [
+          {
+            "relPath": "img/logo1242x2208.png",
+            "height": 2208,
+            "width": 1242,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "img/logo640x1136.png",
+            "height": 1136,
+            "width": 640,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "img/logo640x960.png",
+            "height": 960,
+            "width": 640,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "img/logo320x480.png",
+            "height": 480,
+            "width": 320,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "img/logo1536x2048.png",
+            "height": 2048,
+            "width": 1536,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "img/logo768x1024.png",
+            "height": 1024,
+            "width": 768,
+            "orientation": "portrait"
+          },
+          {
+            "relPath": "img/logo750x1334.png",
+            "height": 1334,
+            "width": 750,
+            "orientation": "portrait"
+          }
+        ],
+        "addlPermissions_": "",
+        "excludedLibraries_": "",
+        "appVersion_": "0.0.1",
+        "cordovaCLIVersion_": "5.1.1",
+        "iosProvs_": [
+          {
+            "relPath": "TestSein.mobileprovision",
+            "type": "adhoc"
+          }
+        ],
+        "appDescription_": "Aplicación para estacionamiento medido",
+        "appAuthor_": "Yaguar Studio",
+        "appVersionCode_": "1.0"
+      },
+      "Windows8": {
+        "platform_": "windows8",
+        "runtime_": "Cordova 3.x",
+        "name_": "Windows8",
+        "preferences_": {},
+        "isActive_": true,
+        "appName_": "Elinpar_Sein",
+        "appID_": "not.yet.specified",
+        "appAccess_": {
+          "mode": "legacy",
+          "network": [
+            "*"
+          ],
+          "intents": [],
+          "navigation": []
+        },
+        "icons_": [],
+        "splashes_": [],
+        "addlPermissions_": "",
+        "excludedLibraries_": "",
+        "appVersion_": "0.0.0.1",
+        "cordovaCLIVersion_": "5.1.1"
+      },
+      "WebApp": {
+        "platform_": "webapp",
+        "runtime_": "W3C",
+        "name_": "WebApp",
+        "preferences_": {},
+        "isActive_": false,
+        "appName_": "Elinpar_Sein",
+        "appID_": "not.yet.specified",
+        "appAccess_": {
+          "mode": "legacy",
+          "network": [
+            "*"
+          ],
+          "intents": [],
+          "navigation": []
+        },
+        "icons_": [],
+        "splashes_": [],
+        "addlPermissions_": "",
+        "excludedLibraries_": "",
+        "appVersion_": "0.0.1"
+      },
+      "Firefox": {
+        "platform_": "firefoxos",
+        "runtime_": "W3C on Firefox OS",
+        "name_": "Firefox",
+        "preferences_": {},
+        "isActive_": false,
+        "appName_": "Elinpar_Sein",
+        "appID_": "not.yet.specified",
+        "appAccess_": {
+          "mode": "legacy",
+          "network": [
+            "*"
+          ],
+          "intents": [],
+          "navigation": []
+        },
+        "icons_": [],
+        "splashes_": [],
+        "addlPermissions_": "",
+        "excludedLibraries_": "",
+        "appVersion_": "0.0.1"
+      },
+      "Chrome": {
+        "platform_": "chromeos",
+        "runtime_": "W3C on Chrome OS",
+        "name_": "Chrome",
+        "preferences_": {},
+        "isActive_": false,
+        "appName_": "Elinpar_Sein",
+        "appID_": "not.yet.specified",
+        "appAccess_": {
+          "mode": "legacy",
+          "network": [
+            "*"
+          ],
+          "intents": [],
+          "navigation": []
+        },
+        "icons_": [],
+        "splashes_": [],
+        "addlPermissions_": "",
+        "excludedLibraries_": "",
+        "appVersion_": "0.0.1"
+      },
+      "Facebook": {
+        "platform_": "facebook",
+        "runtime_": "W3C on Facebook",
+        "name_": "Facebook",
+        "preferences_": {},
+        "isActive_": false,
+        "appName_": "Elinpar_Sein",
+        "appID_": "not.yet.specified",
+        "appAccess_": {
+          "mode": "legacy",
+          "network": [
+            "*"
+          ],
+          "intents": [],
+          "navigation": []
+        },
+        "icons_": [],
+        "splashes_": [],
+        "addlPermissions_": "",
+        "excludedLibraries_": "",
+        "appVersion_": "0.0.1"
+      },
+      "WP81": {
+        "platform_": "wp81",
+        "runtime_": "Cordova 3.x",
+        "name_": "WP81",
+        "preferences_": {},
+        "isActive_": true,
+        "appName_": "Elinpar_Sein",
+        "appID_": "not.yet.specified",
+        "appAccess_": {
+          "mode": "legacy",
+          "network": [
+            "*"
+          ],
+          "intents": [],
+          "navigation": []
+        },
+        "icons_": [],
+        "splashes_": [],
+        "addlPermissions_": "",
+        "excludedLibraries_": "",
+        "appVersion_": "0.0.0.1",
+        "cordovaCLIVersion_": "5.1.1"
+      }
+    }
+  }
+}

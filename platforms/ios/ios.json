@@ -1,0 +1,75 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"Sms\"><param name=\"ios-package\" value=\"Sms\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.pontura.sein"
+        },
+        "com.jsmobile.plugins.sms": {
+            "PACKAGE_NAME": "com.pontura.sein"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "com.pontura.sein"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.pontura.sein"
+        }
+    },
+    "dependent_plugins": {},
+    "modules": [
+        {
+            "file": "plugins/com.jsmobile.plugins.sms/www/sms.js",
+            "id": "com.jsmobile.plugins.sms.sms",
+            "pluginId": "com.jsmobile.plugins.sms",
+            "clobbers": [
+                "window.sms"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-dialogs/www/notification.js",
+            "id": "cordova-plugin-dialogs.notification",
+            "pluginId": "cordova-plugin-dialogs",
+            "merges": [
+                "navigator.notification"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-device/www/device.js",
+            "id": "cordova-plugin-device.device",
+            "pluginId": "cordova-plugin-device",
+            "clobbers": [
+                "device"
+            ]
+        }
+    ],
+    "plugin_metadata": {
+        "cordova-plugin-whitelist": "1.2.0",
+        "com.jsmobile.plugins.sms": "0.0.1",
+        "cordova-plugin-dialogs": "1.2.0",
+        "cordova-plugin-device": "1.1.1"
+    }
+}

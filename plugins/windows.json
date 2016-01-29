@@ -1,0 +1,16 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {},
+        "com.jsmobile.plugins.sms": {},
+        "cordova-plugin-dialogs": {},
+        "cordova-plugin-device": {}
+    },
+    "dependent_plugins": {}
+}

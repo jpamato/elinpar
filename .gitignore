@@ -2,3 +2,7 @@
 *.swp
 *.swo
 rServers9010.bat
+distribution.CertificateSigningRequest.csr
+ios_development.cer
+ios_distribution.cer
+TestSein.mobileprovision

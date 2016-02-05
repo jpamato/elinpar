@@ -1,0 +1,18 @@
+#estacionar{
+	text-align:left;
+	padding: 15px 15px 15px 10px;
+}
+
+#estacionar input{
+	-webkit-appearance: none;
+	//width:100%;
+	//font-size:1.8em;
+	//margin-bottom:10px;
+}
+#estacionar #selPatente{
+	//width:100%;
+	//font-size:1.0em;
+	//margin-bottom:30px;
+	//background-color:#A7A7A7;
+}
+

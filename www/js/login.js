@@ -1,17 +1,20 @@
 var login = (function(){
 	return {
 		init : function(){
-			console.log("login");
-			$("#header").html("login");
-			var user = localStorage.getItem("user");
-			//console.log(user);
-			//$("#header").html(user);
+			//console.log("login");
+			//$("#header").html("login");
+			var user = localStorage.getItem("user");			
 			if(user==null){			
+				setTimeout(function(){$.mobile.loading( "show", {
+			            text: "configurando...",
+			            textVisible: true,
+			            theme: "a",
+			            textonly: null,
+			            html: ""   });}, 20);
 				smsSignUp.sign();
 			}else{
 				//localStorage.clear();
 				login.login();
-				//login.login();
 				//smsSignUp.sign();
 			}
 			//$("#header").html(user);			

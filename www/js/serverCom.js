@@ -22,16 +22,24 @@ var serverCom = {
 	onReqComplete : function(){},
 
 	GetUserForImei : function(imei){
-		$("#header").html(imei);
+		//$("#header").html(imei);
 		serverCom.soapRequest = soapBeg+
 			"<ns1:GetUserForImei>"+
 			"<ns1:transactionId>"+transaccionID+"</ns1:transactionId>"+
 			"<ns1:parkingId>"+parkingID_Tigre+"</ns1:parkingId>"+
 			"<ns1:userId>"+0+"</ns1:userId>"+
-			"<ns1:imei>"+imei+"</ns1:imei>"+
+			//"<ns1:imei>"+imei+"</ns1:imei>"+
+			"<ns1:imei>472559C68EE94F2F9B019B8BC8AF35AA</ns1:imei>"+
 			"</ns1:GetUserForImei>"+
 			soapEnd;		
 		
+		/*navigator.notification.alert(
+						serverCom.soapRequest,
+						null,
+						'Imei Data',
+						'Done'
+						);*/
+
 		//serverCom.soapRequest = "<?xml version='1.0' encoding='UTF-8'?><SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/' xmlns:ns1='http://mobile.elinpark.com/'><SOAP-ENV:Body><ns1:GetUserForImei><ns1:transactionId>"+transaccionID+"</ns1:transactionId><ns1:parkingId>"+parkingID_Tigre+"</ns1:parkingId><ns1:userId>0</ns1:userId><ns1:imei>"+imei+"</ns1:imei></ns1:GetUserForImei></SOAP-ENV:Body></SOAP-ENV:Envelope>";
 		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){
 			$(xmlHttpRequest.responseXML)
@@ -43,21 +51,23 @@ var serverCom = {
 					localStorage.setItem("key",key);
 					var mess = $(this).find('Message').text();
 					//$("#header").html(userID);
-					navigator.notification.alert(
+					/*navigator.notification.alert(
 						$(xmlHttpRequest.responseXML).text(),
 						null,
 						'Message Sent',
 						'Done'
-						);
+						);*/
 				});
+			//main.onLoading(false);
 			login.login();
+			setTimeout(function(){$.mobile.loading('hide');}, 200);
 		};
 		serverCom.request();
 	},
 
 	GetNonce : function(){
 		var user = localStorage.getItem("user");
-		$("#header").html("nonce");
+		//$("#header").html("nonce");
 		serverCom.soapRequest = soapBeg+
 			"<ns1:getNonce>"+
 			"<ns1:userId>"+user+"</ns1:userId>"+			
@@ -78,12 +88,12 @@ var serverCom = {
 	},
 
 	Login : function(){
-		$("#header").html("DoLogin");
+		//$("#header").html("DoLogin");
 		
 		var d = new Date();
 		var timeMS = d.getTime(); 
 
-		$("#header").html(timeMS);
+		//$("#header").html(timeMS);
 
 		var user = localStorage.getItem("user");
 		var key = localStorage.getItem("key");
@@ -91,7 +101,7 @@ var serverCom = {
 		//var nonce = localStorage.getItem("nonce");
 		//var userCode = login.getHashCode("45646544564654167606646543546541231657");		
 
-		var toHash = auxCode + nonce + user + timeMS + device.uuid.toUpperCase();
+		var toHash = auxCode + nonce + user + timeMS + device.uuid.replace(/\W/g, '').toUpperCase();
 		
 		var userCode = Sha1.hash(toHash);
 		
@@ -101,7 +111,7 @@ var serverCom = {
 			"<ns1:parkingId>"+parkingID_Tigre+"</ns1:parkingId>"+
 			"<ns1:phoneNumber>0</ns1:phoneNumber>"+
 			"<ns1:userId>"+user+"</ns1:userId>"+
-			"<ns1:imei>"+device.uuid+"</ns1:imei>"+
+			"<ns1:imei>"+device.uuid.replace(/\W/g, '')+"</ns1:imei>"+
 			"<ns1:key>"+key+"</ns1:key>"+
 			"<ns1:mobileType>android</ns1:mobileType>"+
 			"<ns1:auxiliarUserCode>"+auxCode+"</ns1:auxiliarUserCode>"+
@@ -112,19 +122,19 @@ var serverCom = {
 		
 		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){
 			var logRes = $(xmlHttpRequest.responseXML).find('LoginResult').text();
-			navigator.notification.alert(
+			/*navigator.notification.alert(
 						logRes,
 						null,
 						'LoginResult',
 						'Done'
-						);
+						);*/
 
 			$(xmlHttpRequest.responseXML).find('LoginResult').each(function(){					
 					var mess = $(this).find('Message').text();
 					//$("#header").html(userID);
 					navigator.notification.alert(
 						mess,
-						null,
+						function(){$("#placa").hide()},
 						'Mensaje del Sistema',
 						'Aceptar'
 						);

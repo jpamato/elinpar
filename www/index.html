@@ -19,6 +19,7 @@
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <link rel="stylesheet" type="text/css" href="css/estacionar.css">
         <link rel="stylesheet" type="text/css" href="css/raspadita.css">
+        <link rel="stylesheet" type="text/css" href="css/saldo.css">
         <title>Estacionamiento</title>
     </head>
     <body>
@@ -36,33 +37,29 @@
 		</ul>
 
 	<div id="estacionar">		
-		 <form>
+		 <form id="estacionaForm">
  			<label for="calleIn">Calle donde estaciona:</label>
 			<input type="text" name="calleIn" id="calleIn">
 			<label for="horasIn">Cantidad de Horas a Estacionar:</label>
 			<input type="text" name="horasIn" id="horasIn">
 			<label for="selPatente">Patente:</label>
    			<select name="selPatente" id="selPatente">
-			<option value="1">CLA086</option>
-        		<option value="2">Otra</option>
-        		<option value="3"></option>
-        		<option value="4"></option>
     			</select>
 			<input type="submit" value="Estacionar" data-corners="true">
 		</form> 
 	</div>
 
-	<div id="saldo">	</div>
-
+	<div id="saldo">El saldo de su cuenta es </br>$<span id="saldoVal"></span></br><div id="seuo">(S.E.U.O)</div></br><button>volver</button></div>
+		
 	<div id="ultimos">	</div>
 	
 	<div id="cerrar">	</div>
 
 	<div id="raspadita">
-		 <form>
+		 <form id="raspaForm">
  			<label for="raspaIn">Número de Raspadita</label>
 			<input type="text" name="raspaIn" id="raspaIn">		
-			<input type="submit" value="Estacionar" data-corners="true">
+			<input type="submit" value="Asociar" data-corners="true">
 		</form>
 	</div>
 

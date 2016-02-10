@@ -3,6 +3,8 @@ var soapBeg = "<?xml version='1.0' encoding='UTF-8'?><SOAP-ENV:Envelope xmlns:SO
 var soapEnd = "</SOAP-ENV:Body></SOAP-ENV:Envelope>";
 var transaccionID = 0;
 var nonce;
+var token;
+var plates = [];
 var serverCom = {
 
 	url : productServiceUrl = 'https://www.elinpark.com:52501/ElinparkMobile.asmx',
@@ -28,11 +30,13 @@ var serverCom = {
 			"<ns1:transactionId>"+transaccionID+"</ns1:transactionId>"+
 			"<ns1:parkingId>"+parkingID_Tigre+"</ns1:parkingId>"+
 			"<ns1:userId>"+0+"</ns1:userId>"+
-			//"<ns1:imei>"+imei+"</ns1:imei>"+
-			"<ns1:imei>472559C68EE94F2F9B019B8BC8AF35AA</ns1:imei>"+
+			"<ns1:imei>"+imei+"</ns1:imei>"+
+			//"<ns1:imei>472559C68EE94F2F9B019B8BC8AF35AA</ns1:imei>"+
 			"</ns1:GetUserForImei>"+
 			soapEnd;		
-		
+
+		transaccionID++;	
+
 		/*navigator.notification.alert(
 						serverCom.soapRequest,
 						null,
@@ -131,6 +135,17 @@ var serverCom = {
 
 			$(xmlHttpRequest.responseXML).find('LoginResult').each(function(){					
 					var mess = $(this).find('Message').text();
+					plates = $(this).find('Plates').text().match(/.{6}/g);
+					token = $(this).find('Token').text();
+					
+					var option = '';
+					for (var i=0;i<plates.length;i++){
+					   option += '<option value="'+ plates[i] + '">' + plates[i] + '</option>';
+					}
+					option += '<option value="Otra">Otra</option>';
+					$("#selPatente").append(option);					
+					//$('#selPatente option[value="'+plates[0]+'"]').attr("selected",true);
+
 					//$("#header").html(userID);
 					navigator.notification.alert(
 						mess,
@@ -142,5 +157,140 @@ var serverCom = {
 		};
 		serverCom.request();
 	},
+
+	AsociarRaspadita : function(tarjeta){
+		var user = localStorage.getItem("user");
+		serverCom.soapRequest = soapBeg+
+			"<ns1:AssociatePrepaidCard>"+
+			"<ns1:cardScracthNumber>"+tarjeta+"</ns1:cardScracthNumber>"+
+			"<ns1:parkingId>"+parkingID_Tigre+"</ns1:parkingId>"+
+			"<ns1:transactionId>"+transaccionID+"</ns1:transactionId>"+
+			"<ns1:userId>"+user+"</ns1:userId>"+
+			"<ns1:token>"+token+"</ns1:token>"+		
+			"</ns1:AssociatePrepaidCard>"+
+			soapEnd;			
+
+			transaccionID++;	
+
+		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){
+			var mess = $(xmlHttpRequest.responseXML).find('AssociatePrepaidCardResult').find('Message').text();
+			navigator.notification.alert(
+						mess,
+						function(){app.mainMenu();},
+						'Mensaje del Sistema',
+						'Aceptar'
+						);
+		};
+		serverCom.request();
+	},
+
+	ConsultarSaldo : function(){
+		var user = localStorage.getItem("user");
+		serverCom.soapRequest = soapBeg+
+			"<ns1:GetBalance>"+
+			"<ns1:parkingId>"+parkingID_Tigre+"</ns1:parkingId>"+
+			"<ns1:userId>"+user+"</ns1:userId>"+
+			"<ns1:transactionId>"+transaccionID+"</ns1:transactionId>"+
+			"<ns1:token>"+token+"</ns1:token>"+		
+			"</ns1:GetBalance>"+
+			soapEnd;			
+
+			transaccionID++;	
+
+		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){			
+			var balance = $(xmlHttpRequest.responseXML).find('GetBalanceResult').find('Balance').text();
+			balance = balance.substring(0, balance.length-2) + "," + balance.substring(balance.length-2, balance.length);
+			$("#saldoVal").html(balance);
+			/*navigator.notification.alert(
+						balance,
+						null,
+						'Mensaje del Sistema',
+						'Aceptar'
+						);*/
+			
+		};
+		serverCom.request();
+	},
+
+	Estacionar : function(horas,plate,subzona){
+		var user = localStorage.getItem("user");
+		serverCom.soapRequest = soapBeg+
+			"<ns1:NotifyParking>"+
+			"<ns1:hours>"+horas+"</ns1:hours>"+
+			"<ns1:parkingId>"+parkingID_Tigre+"</ns1:parkingId>"+
+			"<ns1:plate>"+plate+"</ns1:plate>"+
+			"<ns1:transactionId>"+transaccionID+"</ns1:transactionId>"+
+			"<ns1:userId>"+user+"</ns1:userId>"+
+			"<ns1:subzone>"+subzona+"</ns1:subzone>"+
+			"<ns1:token>"+token+"</ns1:token>"+		
+			"</ns1:NotifyParking>"+
+			soapEnd;			
+
+			transaccionID++;	
+
+		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){
+			var code = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('ParkingTransactionCode').text();
+			var domain = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('Domain').text();
+			var subzone = "";
+			var from = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('StartTime').text();
+			var to = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('ToTime').text();
+			var hours = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('RequestHours').text();
+			var costo = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('PayAmount').text();
+
+			//var resp = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').html();
+
+			var mess = 	"Código: "+code+"\n"+
+					"Patente: "+domain+"\n"+
+					"Subzona: "+subzone+"\n"+
+					"Hora de Inicio: "+from+"\n"+
+					"Hora de Fin: "+to+"\n"+
+					"Horas: "+hours+"\n"+
+					"Monto: "+costo+"\n";
+
+
+			navigator.notification.alert(
+						mess,
+						function(){app.mainMenu();},
+						'Estacionamiento Exitoso',
+						'Aceptar'
+						);
+		};
+		serverCom.request();
+	},
+
+	Ultimos : function(){
+		var user = localStorage.getItem("user");
+		serverCom.soapRequest = soapBeg+
+			"<ns1:GetLastParkings>"+
+			"<ns1:parkingId>"+parkingID_Tigre+"</ns1:parkingId>"+
+			"<ns1:userId>"+user+"</ns1:userId>"+
+			"<ns1:transactionId>"+transaccionID+"</ns1:transactionId>"+
+			"<ns1:plate>"+plates[0]+"</ns1:plate>"+
+			"<ns1:token>"+token+"</ns1:token>"+		
+			"</ns1:GetLastParkings>"+
+			soapEnd;			
+
+			/*navigator.notification.alert(
+						serverCom.soapRequest,
+						null,
+						'Last Call',
+						'Done'
+						);*/
+
+			transaccionID++;	
+
+		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){			
+			var res = $(xmlHttpRequest.responseXML).find('GetLastParkingsResult').html();
+			
+			navigator.notification.alert(
+						res,
+						null,
+						'Mensaje del Sistema',
+						'Aceptar'
+						);
+			
+		};
+		serverCom.request();
+	}
 };
 

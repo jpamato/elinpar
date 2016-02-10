@@ -2,7 +2,9 @@ var app = {
     // Application Constructor
     init: function() {
         this.bindEvents();
-	//app.menuInit();
+
+	app.menuInit();
+	$("#placa").hide();
 	//login.init();
     },
     // Bind Event Listeners
@@ -23,48 +25,60 @@ var app = {
     },
 
     menuInit: function(){
-	$("#estacionar").hide();
-	$("#saldo").hide();
-	$("#ultimos").hide();
-	$("#cerrar").hide();
-	$("#raspadita").hide();
-	$("#mercadopago").hide();
 
-	$("#toEstacionar").click( function()
-           { 
+	$( "#estacionaForm" ).submit(function( event ) {
+		serverCom.Estacionar($( "input#horasIn" ).val(),$( "select#selPatente" ).val(),$( "input#calleIn" ).val());
+		event.preventDefault();
+		event.stopImmediatePropagation();
+		$( "input#horasIn" ).val('');
+		$( "input#calleIn" ).val('');
+	});
+
+	$( "#raspaForm" ).submit(function( event ) {
+		serverCom.AsociarRaspadita($( "input#raspaIn" ).val());
+		event.preventDefault();
+		event.stopImmediatePropagation();
+		$( "input#raspaIn" ).val('');
+	});
+
+	$( "#saldo button" ).unbind('click').click( function(){
+		app.mainMenu();
+	});
+
+	app.mainMenu();
+
+	$("#toEstacionar").unbind('click').click( function(){
 		$("#header").html("Estacionar");
 		$("#navlist").hide();
-		$("#estacionar").show();
-           }
-        );
-	$("#toSaldo").click( function()
-           {             
-		   //smsSignUp.onPatenteDone();
-           }
-        );
-	$("#toUltimos").click( function()
-           {             
-           }
-        );
-	$("#toRaspadita").click( function()
-           {             
+		$("#estacionar").show();		
+		var myselect = $("select#selPatente");
+		myselect[0].selectedIndex = 0;
+		myselect.selectmenu("refresh");
+	});
+	$("#toSaldo").unbind('click').click( function(){
+		$("#header").html("Consulta de Saldo");
+		$("#navlist").hide();
+		$("#saldo").show();
+		serverCom.ConsultarSaldo();
+	});
+	$("#toUltimos").unbind('click').click( function(){
+		$("#header").html("Últimos Estacionamientos");
+		$("#navlist").hide();
+		$("#ultimos").show();
+		serverCom.Ultimos();
+	});
+	$("#toRaspadita").unbind('click').click( function(){
 		$("#header").html("Asociar Raspadita");
 		$("#navlist").hide();
 		$("#raspadita").show();
-           }
-        );
-	$("#toCerrar").click( function()
-           {            
+	});
+	$("#toCerrar").unbind('click').click( function(){
 		   //app.onLoading(false);
-           }
-        );
+	});
 	
-	$("#reset").click( function()
-           {
+	$("#reset").click( function(){
              navigator.notification.confirm ('¿resetear aplicación?', app.resetApp, 'RESET APP', ['cancelar','continuar']);
-           }
-	   
-        );
+        });
 
     },
 
@@ -78,6 +92,17 @@ var app = {
 			            html: ""   });}, 20);
 	    else
 		    setTimeout(function(){$.mobile.loading('hide');}, 20);
+    },
+
+    mainMenu : function(){
+	$("#estacionar").hide();
+	$("#saldo").hide();
+	$("#ultimos").hide();
+	$("#cerrar").hide();
+	$("#raspadita").hide();
+	$("#mercadopago").hide();
+	$("#header").html("Estacionamiento");
+	$("#navlist").show();
     },
 
     resetApp : function(buttonIndex){

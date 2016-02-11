@@ -8,7 +8,8 @@ var smsSignUp = {
 			textMessage:"TIGRE"			
 		};
 
-		if(results.buttonIndex>1&&results.input1.length==6){
+		var regex = /^[a-zA-Z]{3}\d{3}$/;
+		if(results.buttonIndex>1&&results.input1.match(regex)){
 
 			msg.textMessage = msg.textMessage + " " +results.input1.toUpperCase();
 

@@ -292,6 +292,43 @@ var serverCom = {
 			
 		};
 		serverCom.request();
+	},
+
+	Cerrar : function(){
+		var user = localStorage.getItem("user");
+		serverCom.soapRequest = soapBeg+
+			"<ns1:CloseParking>"+
+			"<ns1:parkingId>"+parkingID_Tigre+"</ns1:parkingId>"+
+			"<ns1:userId>"+user+"</ns1:userId>"+
+			"<ns1:transactionId>"+transaccionID+"</ns1:transactionId>"+
+			//"<ns1:plate>"+plates[0]+"</ns1:plate>"+
+			"<ns1:plate></ns1:plate>"+
+			"<ns1:token>"+token+"</ns1:token>"+		
+			"</ns1:CloseParking>"+
+			soapEnd;			
+
+			transaccionID++;	
+
+		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){			
+			var res = $(xmlHttpRequest.responseXML).find('CloseParkingResult').html();
+			var mess = $(xmlHttpRequest.responseXML).find('CloseParkingResult').find('Message').text();
+			
+			navigator.notification.alert(
+						res,
+						null,
+						'Mensaje del Sistema',
+						'Aceptar'
+						);
+
+			navigator.notification.alert(
+						mess,
+						null,
+						'Cerrar Estacionamiento',
+						'Aceptar'
+						);
+			
+		};
+		serverCom.request();
 	}
 };
 

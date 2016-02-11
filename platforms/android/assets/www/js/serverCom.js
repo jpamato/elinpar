@@ -236,6 +236,7 @@ var serverCom = {
 			var to = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('ToTime').text();
 			var hours = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('RequestHours').text();
 			var costo = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('PayAmount').text();
+			costo = costo.substring(0, costo.length-2) + "," + costo.substring(costo.length-2, costo.length);
 
 			//var resp = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').html();
 
@@ -286,6 +287,43 @@ var serverCom = {
 						res,
 						null,
 						'Mensaje del Sistema',
+						'Aceptar'
+						);
+			
+		};
+		serverCom.request();
+	},
+
+	Cerrar : function(){
+		var user = localStorage.getItem("user");
+		serverCom.soapRequest = soapBeg+
+			"<ns1:CloseParking>"+
+			"<ns1:parkingId>"+parkingID_Tigre+"</ns1:parkingId>"+
+			"<ns1:userId>"+user+"</ns1:userId>"+
+			"<ns1:transactionId>"+transaccionID+"</ns1:transactionId>"+
+			//"<ns1:plate>"+plates[0]+"</ns1:plate>"+
+			"<ns1:plate></ns1:plate>"+
+			"<ns1:token>"+token+"</ns1:token>"+		
+			"</ns1:CloseParking>"+
+			soapEnd;			
+
+			transaccionID++;	
+
+		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){			
+			var res = $(xmlHttpRequest.responseXML).find('CloseParkingResult').html();
+			var mess = $(xmlHttpRequest.responseXML).find('CloseParkingResult').find('Message').text();
+			
+			navigator.notification.alert(
+						res,
+						null,
+						'Mensaje del Sistema',
+						'Aceptar'
+						);
+
+			navigator.notification.alert(
+						mess,
+						null,
+						'Cerrar Estacionamiento',
 						'Aceptar'
 						);
 			

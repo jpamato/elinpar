@@ -1,0 +1,23 @@
+#ultimos{
+	text-align:left;
+	padding: 15px 15px 15px 10px;	
+}
+#ultimos #left{
+	width:50%;
+	text-align:left;
+	font-size:16px;
+	float:left;
+}
+
+#ultimos #right{
+	width:50%;
+	text-align:right;
+	font-size:16px;
+	float:right;
+}
+
+#ultimos #separaV{
+	height:20px;
+	width:100%;
+	float:left;
+}

@@ -143,8 +143,10 @@ var serverCom = {
 					   option += '<option value="'+ plates[i] + '">' + plates[i] + '</option>';
 					}
 					option += '<option value="Otra">Otra</option>';
-					$("#selPatente").append(option);					
-					//$('#selPatente option[value="'+plates[0]+'"]').attr("selected",true);
+					$("#selPatenteE").append(option);					
+					
+					option += '<option value="Todas">Todas las patentes</option>';
+					$("#selPatenteC").append(option);
 
 					//$("#header").html(userID);
 					navigator.notification.alert(
@@ -232,8 +234,8 @@ var serverCom = {
 			var code = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('ParkingTransactionCode').text();
 			var domain = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('Domain').text();
 			var subzone = "";
-			var from = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('StartTime').text();
-			var to = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('ToTime').text();
+			var from = getTimeFormat($(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('StartTime').text());
+			var to = getTimeFormat($(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('ToTime').text());
 			var hours = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('RequestHours').text();
 			var costo = $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('PayAmount').text();
 			costo = costo.substring(0, costo.length-2) + "," + costo.substring(costo.length-2, costo.length);
@@ -246,7 +248,7 @@ var serverCom = {
 					"Hora de Inicio: "+from+"\n"+
 					"Hora de Fin: "+to+"\n"+
 					"Horas: "+hours+"\n"+
-					"Monto: "+costo+"\n";
+					"Monto: $"+costo+"\n";
 
 
 			navigator.notification.alert(
@@ -260,13 +262,14 @@ var serverCom = {
 	},
 
 	Ultimos : function(){
+
 		var user = localStorage.getItem("user");
 		serverCom.soapRequest = soapBeg+
 			"<ns1:GetLastParkings>"+
 			"<ns1:parkingId>"+parkingID_Tigre+"</ns1:parkingId>"+
 			"<ns1:userId>"+user+"</ns1:userId>"+
 			"<ns1:transactionId>"+transaccionID+"</ns1:transactionId>"+
-			"<ns1:plate>"+plates[0]+"</ns1:plate>"+
+			"<ns1:plate></ns1:plate>"+
 			"<ns1:token>"+token+"</ns1:token>"+		
 			"</ns1:GetLastParkings>"+
 			soapEnd;			
@@ -281,28 +284,66 @@ var serverCom = {
 			transaccionID++;	
 
 		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){			
-			var res = $(xmlHttpRequest.responseXML).find('GetLastParkingsResult').html();
-			
+			/*var res = $(xmlHttpRequest.responseXML).find('GetLastParkingsResult').html();			
 			navigator.notification.alert(
 						res,
 						null,
 						'Mensaje del Sistema',
 						'Aceptar'
-						);
+						);*/
+
+			var domain = [];
+			var code = [];
+			
+			var subzone = [];
+			var from = [];
+			var to = [];
+			var hours = [];
+			var costo = [];
+
+			$(xmlHttpRequest.responseXML).find('ReducedParkingTransaction').each(function(){					
+				        domain.push($(this).find('Domain').text());
+					subzone.push("");
+					from.push($(this).find('StartTime').text());
+					to.push($(this).find('ToTime').text());
+					hours.push($(this).find('RequestHours').text());
+					costo.push($(this).find('PayAmount').text());
+					code.push($(this).find('ParkingTransactionCode').text());
+				});
+			
+			$("#last_0").hide();
+			$("#last_1").hide();
+			$("#last_2").hide();
+			
+			for(var i=0;i<domain.length;i++){
+				$("#last_"+i+"_patente").html(domain[i]);
+				$("#last_"+i+"_subzona").html(subzone[i]);
+				$("#last_"+i+"_inicio").html(getTimeFormat(from[i]));
+				$("#last_"+i+"_fin").html(getTimeFormat(to[i]));
+				$("#last_"+i+"_horas").html(hours[i]);
+				//$("#last_"+i+"_monto").html(costo[i]);
+				if(costo[i].length>2){
+					$("#last_"+i+"_monto").html("$"+costo[i].substring(0, costo[i].length-2) + "," + costo[i].substring(costo[i].length-2, costo[i].length));
+				}else if(costo[i].length>1){
+					$("#last_"+i+"_monto").html("$0,"+costo[i]);
+				}else{
+					$("#last_"+i+"_monto").html("$0,0"+costo[i]);
+				}
+				$("#last_"+i).show();
+			}
 			
 		};
 		serverCom.request();
 	},
 
-	Cerrar : function(){
+	Cerrar : function(plate){
 		var user = localStorage.getItem("user");
 		serverCom.soapRequest = soapBeg+
 			"<ns1:CloseParking>"+
 			"<ns1:parkingId>"+parkingID_Tigre+"</ns1:parkingId>"+
 			"<ns1:userId>"+user+"</ns1:userId>"+
-			"<ns1:transactionId>"+transaccionID+"</ns1:transactionId>"+
-			//"<ns1:plate>"+plates[0]+"</ns1:plate>"+
-			"<ns1:plate></ns1:plate>"+
+			"<ns1:transactionId>"+transaccionID+"</ns1:transactionId>"+			
+			"<ns1:plate>"+plate+"</ns1:plate>"+
 			"<ns1:token>"+token+"</ns1:token>"+		
 			"</ns1:CloseParking>"+
 			soapEnd;			
@@ -311,24 +352,59 @@ var serverCom = {
 
 		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){			
 			var res = $(xmlHttpRequest.responseXML).find('CloseParkingResult').html();
-			var mess = $(xmlHttpRequest.responseXML).find('CloseParkingResult').find('Message').text();
-			
-			navigator.notification.alert(
-						res,
-						null,
-						'Mensaje del Sistema',
-						'Aceptar'
-						);
-
-			navigator.notification.alert(
-						mess,
+			var message = $(xmlHttpRequest.responseXML).find('CloseParkingResult').find('Message').text();
+				
+			if(message.length>0)
+				navigator.notification.alert(
+						message,
 						null,
 						'Cerrar Estacionamiento',
 						'Aceptar'
 						);
-			
+			else{
+
+				var code = $(xmlHttpRequest.responseXML).find('CloseParkingResult').find('ParkingTransactionCode').text();
+				var domain = $(xmlHttpRequest.responseXML).find('CloseParkingResult').find('Domain').text();
+				var subzone = $(xmlHttpRequest.responseXML).find('CloseParkingResult').find('SubzoneName').text();;
+				var from = getTimeFormat($(xmlHttpRequest.responseXML).find('CloseParkingResult').find('StartTime').text());
+				var to = getTimeFormat($(xmlHttpRequest.responseXML).find('CloseParkingResult').find('ToTime').text());
+				var hours =$(xmlHttpRequest.responseXML).find('CloseParkingResult').find('RequestHours').text();
+				var costo = $(xmlHttpRequest.responseXML).find('CloseParkingResult').find('PayAmount').text();
+
+				if(costo.length>2){
+					costo = "$"+costo.substring(0, costo.length-2) + "," + costo.substring(costo.length-2, costo.length);
+				}else if(costo.length>1){
+					costo = "$0,"+costo;
+				}else{
+					costo = "$0,0"+costo;
+				}
+
+				var mess = 	"Código: "+code+"\n"+
+						"Patente: "+domain+"\n"+
+						"Subzona: "+subzone+"\n"+
+						"Hora de Inicio: "+from+"\n"+
+						"Hora de Fin: "+to+"\n"+
+						"Horas: "+hours+"\n"+
+						"Monto: "+costo+"\n";
+
+				navigator.notification.alert(
+						mess,
+						function(){app.mainMenu();},
+						'Cierre de estacionamiento Exitoso',
+						'Aceptar'
+						);
+
+			}			
 		};
 		serverCom.request();
 	}
 };
 
+function getTimeFormat(source){
+	var year = source.substring(0, 4);
+	var month = source.substring(5, 7);
+	var day = source.substring(8, 10);
+	var time = source.substring(source.length-8, source.length-3);
+
+	return day+"/"+month+"/"+year+" "+time;
+}

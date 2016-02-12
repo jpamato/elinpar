@@ -20,6 +20,8 @@
         <link rel="stylesheet" type="text/css" href="css/estacionar.css">
         <link rel="stylesheet" type="text/css" href="css/raspadita.css">
         <link rel="stylesheet" type="text/css" href="css/saldo.css">
+        <link rel="stylesheet" type="text/css" href="css/ultimos.css">
+        <link rel="stylesheet" type="text/css" href="css/cerrar.css">
         <title>Estacionamiento</title>
     </head>
     <body>
@@ -35,6 +37,7 @@
 			<li><a id="toCerrar">Cerrar Estacionamiento</a></li>
 			<!--<li><a id="reset">Reset App</a></li>-->
 		</ul>
+	
 
 	<div id="estacionar">		
 		 <form id="estacionaForm">
@@ -42,21 +45,87 @@
 			<input type="text" name="calleIn" id="calleIn">
 			<label for="horasIn">Cantidad de Horas a Estacionar:</label>
 			<input type="text" name="horasIn" id="horasIn">
-			<label for="selPatente">Patente:</label>
-   			<select name="selPatente" id="selPatente">
+			<label for="selPatenteE">Patente:</label>
+   			<select name="selPatenteE" id="selPatenteE">
     			</select>
-			<label for="patenteIn" id="labelPIn">Otra Patente:</label>
-			<input type="text" name="patenteIn" id="patenteIn">
+			<label for="patenteInE" id="labelPInE">Otra Patente:</label>
+			<input type="text" name="patenteInE" id="patenteInE">
 			<input type="submit" value="Estacionar" data-corners="true">
 		</form> 
 	</div>
 
-	<div id="saldo">El saldo de su cuenta es </br>$<span id="saldoVal"></span></br><div id="seuo">(S.E.U.O)</div></br><button>volver</button></div>
+	<div id="saldo">El saldo de su cuenta es </br>$<span id="saldoVal"></span></br><div id="seuo">(S.E.U.O)</div></br></div>
 		
-	<div id="ultimos">	</div>
+	<div id="ultimos">
+		<div id="last_0">
+			<div id="left">
+			<span>Patente: </span></br>
+			<span>Subzona: </span></br>
+			<span>Hora de Inicio: </span></br>
+			<span>Hora de Fin: </span></br>
+			<span>Horas: </span></br>
+			<span>Monto: </span>
+			</div>
+			<div id="right">
+			<span id="last_0_patente"></span></br>
+			<span id="last_0_subzona"></span></br>
+			<span id="last_0_inicio"></span></br>
+			<span id="last_0_fin"></span></br>
+			<span id="last_0_horas"></span></br>
+			<span id="last_0_monto"></span></br>
+			</div>
+		</div>
+		<div id="separaV">&nbsp;</div>
+		<div id="last_1">
+			<div id="left">
+			<span>Patente: </span></br>
+			<span>Subzona: </span></br>
+			<span>Hora de Inicio: </span></br>
+			<span>Hora de Fin: </span></br>
+			<span>Horas: </span></br>
+			<span>Monto: </span></br>
+			</div>
+			<div id="right">
+			<span id="last_1_patente"></span></br>
+			<span id="last_1_subzona"></span></br>
+			<span id="last_1_inicio"></span></br>
+			<span id="last_1_fin"></span></br>
+			<span id="last_1_horas"></span></br>
+			<span id="last_1_monto"></span></br>
+			</div>
+		</div>
+		<div id="separaV">&nbsp;</div>
+		<div id="last_2">
+			<div id="left">
+			<span>Patente: </span></br>
+			<span>Subzona: </span></br>
+			<span>Hora de Inicio: </span></br>
+			<span>Hora de Fin: </span></br>
+			<span>Horas: </span></br>
+			<span>Monto: </span></br>
+			</div>
+			<div id="right">
+			<span id="last_2_patente"></span></br>
+			<span id="last_2_subzona"></span></br>
+			<span id="last_2_inicio"></span></br>
+			<span id="last_2_fin"></span></br>
+			<span id="last_2_horas"></span></br>
+			<span id="last_2_monto"></span></br>
+			</div>
+		</div>
+	</div>
 	
-	<div id="cerrar">	</div>
-
+	<div id="cerrar">
+		<form id="cerrarForm">
+			<label for="selPatenteC">Patente:</label>
+   			<select name="selPatenteC" id="selPatenteC">
+    			</select>
+			<label for="patenteInC" id="labelPInC">Otra Patente:</label>
+			<input type="text" name="patenteInC" id="patenteInC">
+			<input type="submit" value="Cerrar Estacionamiento" data-corners="true">
+		</form>
+	</div>
+		 
 	<div id="raspadita">
 		 <form id="raspaForm">
  			<label for="raspaIn">Número de Raspadita</label>
@@ -67,7 +136,10 @@
 
 	<div id="mercadopago">	</div>
 
-		</div>
+	<button id="back">volver</button>
+	</div>
+
+
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/jquery.mobile-1.4.5.min.js"></script>
         <script type="text/javascript" src="cordova.js"></script>

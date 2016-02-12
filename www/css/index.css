@@ -42,6 +42,7 @@ body {
 	margin:0px;
 	padding:0px;
 	width:100%;
+	//height:100%;
 	//border-style:none;
 }
 #borderTop{
@@ -63,6 +64,13 @@ body {
 	background: -o-linear-gradient(#777777, #aaaaaa, #777777); /* For Opera 11.1 to 12.0 */
 	background: -moz-linear-gradient(#777777, #aaaaaa, #777777); /* For Firefox 3.6 to 15 */
 	background: linear-gradient(#777777, #aaaaaa, #777777); /* Standard syntax */
+}
+#back{
+	position:fixed;
+	//bottom:50px;
+	top:500px;
+	width:92%;
+	left:4%;
 }
 
 /* Portrait layout (default) */

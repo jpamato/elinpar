@@ -17,6 +17,8 @@ var app = {
 		$(this).next(':input').focus();
    		return event.keyCode != 13;
 	});*/
+
+	
     },
     // deviceready Event Handler
     //
@@ -24,6 +26,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
 	//$("#header").html("init");
+
 	app.menuInit();
 	login.init();
     },
@@ -31,14 +34,14 @@ var app = {
     menuInit: function(){
 
 	$( "#estacionaForm" ).submit(function( event ) {
-		var domain = $("#patenteIn").is(":visible") ? $( "input#patenteIn" ).val() : $( "select#selPatente" ).val();
+		var domain = $("#patenteInE").is(":visible") ? $( "input#patenteInE" ).val() : $( "select#selPatenteE" ).val();
 
 		var regex = /^[a-zA-Z]{3}\d{3}$/;
 		if(domain.match(regex)){
 			serverCom.Estacionar($( "input#horasIn" ).val(),domain,$( "input#calleIn" ).val());
 			$( "input#horasIn" ).val('');
 			$( "input#calleIn" ).val('');
-			$( "input#patenteIn" ).val('');
+			$( "input#patenteInE" ).val('');
 		}else{
 			navigator.notification.alert(
 						'Por favor reintroduzca su patente repetando el patrón de letras y números AAA111',
@@ -46,7 +49,7 @@ var app = {
 						'Mensaje del Sistema',
 						'Aceptar'
 						);	
-			$( "input#patenteIn" ).val('');
+			$( "input#patenteInE" ).val('');
 		}
 		event.preventDefault();
 		event.stopImmediatePropagation();		
@@ -59,17 +62,49 @@ var app = {
 		$( "input#raspaIn" ).val('');
 	});
 
-	$( "#saldo button" ).unbind('click').click( function(){
+	$( "#cerrarForm" ).submit(function( event ) {
+		var domain = $("#patenteInC").is(":visible") ? $( "input#patenteInC" ).val() : $( "select#selPatenteC" ).val();
+		var regex = /^[a-zA-Z]{3}\d{3}$/;
+		if(domain.match(regex)){
+			serverCom.Cerrar(domain);
+			$( "input#patenteInC" ).val('');
+		}else if(domain=="Todas"){
+			serverCom.Cerrar("");
+			$( "input#patenteInC" ).val('');
+		}else{
+			navigator.notification.alert(
+						'Por favor reintroduzca su patente repetando el patrón de letras y números AAA111',
+						null,
+						'Mensaje del Sistema',
+						'Aceptar'
+						);	
+			$( "input#patenteInC" ).val('');
+		}
+		event.preventDefault();
+		event.stopImmediatePropagation();		
+	});
+
+	$( "button#back" ).unbind('click').click( function(){
 		app.mainMenu();
 	});
 	
-	$( "#selPatente" ).change(function() {
- 		if($( "select#selPatente" ).val()=="Otra"){
-			$("#patenteIn").show();
-			$("#labelPIn").show();		
+	$( "#selPatenteE" ).change(function() {
+ 		if($( "select#selPatenteE" ).val()=="Otra"){
+			$("#patenteInE").show();
+			$("#labelPInE").show();		
 		}else{
-			$("#patenteIn").hide();		
-			$("#labelPIn").hide();		
+			$("#patenteInE").hide();		
+			$("#labelPInE").hide();		
+		}
+	});
+
+	$( "#selPatenteC" ).change(function() {
+ 		if($( "select#selPatenteC" ).val()=="Otra"){
+			$("#patenteInC").show();
+			$("#labelPInC").show();		
+		}else{
+			$("#patenteInC").hide();		
+			$("#labelPInC").hide();		
 		}
 	});
 
@@ -87,34 +122,43 @@ var app = {
 		$("#header").html("Estacionar");
 		$("#navlist").hide();
 		$("#estacionar").show();		
-		$("#patenteIn").hide();		
-		$("#labelPIn").hide();		
-		var myselect = $("select#selPatente");
+		$("#patenteInE").hide();		
+		$("#labelPInE").hide();		
+		var myselect = $("select#selPatenteE");
 		myselect[0].selectedIndex = 0;
 		myselect.selectmenu("refresh");
+		$("#back").show();
 	});
 	$("#toSaldo").unbind('click').click( function(){
 		$("#header").html("Consulta de Saldo");
 		$("#navlist").hide();
 		$("#saldo").show();
+		$("#back").show();
 		serverCom.ConsultarSaldo();
 	});
 	$("#toUltimos").unbind('click').click( function(){
 		$("#header").html("Últimos Estacionamientos");
 		$("#navlist").hide();
 		$("#ultimos").show();
+		$("#back").show();
 		serverCom.Ultimos();
 	});
 	$("#toRaspadita").unbind('click').click( function(){
 		$("#header").html("Asociar Raspadita");
 		$("#navlist").hide();
 		$("#raspadita").show();
+		$("#back").show();
 	});
 	$("#toCerrar").unbind('click').click( function(){
 		$("#header").html("Cerrar Estacionamiento");
 		$("#navlist").hide();
 		$("#cerrar").show();
-		serverCom.Cerrar();
+		$("#patenteInC").hide();		
+		$("#labelPInC").hide();		
+		var myselect = $("select#selPatenteC");
+		myselect[0].selectedIndex = 0;
+		myselect.selectmenu("refresh");
+		$("#back").show();
 	});
 	
 	/*$("#reset").click( function(){
@@ -144,6 +188,7 @@ var app = {
 	$("#mercadopago").hide();
 	$("#header").html("Estacionamiento");
 	$("#navlist").show();
+	$("#back").hide();
     },
 
     resetApp : function(buttonIndex){

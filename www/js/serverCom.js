@@ -201,7 +201,14 @@ var serverCom = {
 
 		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){			
 			var balance = $(xmlHttpRequest.responseXML).find('GetBalanceResult').find('Balance').text();
-			balance = balance.substring(0, balance.length-2) + "," + balance.substring(balance.length-2, balance.length);
+			if(balance.length>2){
+					balance = balance.substring(0, balance.length-2) + "," + balance.substring(balance.length-2, balance.length);
+				}else if(costo.length>1){
+					balance = "0,"+balance;
+				}else{
+					balance = "0,0"+balance;
+				}
+			
 			$("#saldoVal").html(balance);
 			/*navigator.notification.alert(
 						balance,
@@ -315,21 +322,30 @@ var serverCom = {
 			$("#last_1").hide();
 			$("#last_2").hide();
 			
-			for(var i=0;i<domain.length;i++){
-				$("#last_"+i+"_patente").html(domain[i]);
-				$("#last_"+i+"_subzona").html(subzone[i]);
-				$("#last_"+i+"_inicio").html(getTimeFormat(from[i]));
-				$("#last_"+i+"_fin").html(getTimeFormat(to[i]));
-				$("#last_"+i+"_horas").html(hours[i]);
-				//$("#last_"+i+"_monto").html(costo[i]);
-				if(costo[i].length>2){
-					$("#last_"+i+"_monto").html("$"+costo[i].substring(0, costo[i].length-2) + "," + costo[i].substring(costo[i].length-2, costo[i].length));
-				}else if(costo[i].length>1){
-					$("#last_"+i+"_monto").html("$0,"+costo[i]);
-				}else{
-					$("#last_"+i+"_monto").html("$0,0"+costo[i]);
+			if(domain.length>0){
+				for(var i=0;i<domain.length;i++){
+					$("#last_"+i+"_patente").html(domain[i]);
+					$("#last_"+i+"_subzona").html(subzone[i]);
+					$("#last_"+i+"_inicio").html(getTimeFormat(from[i]));
+					$("#last_"+i+"_fin").html(getTimeFormat(to[i]));
+					$("#last_"+i+"_horas").html(hours[i]);
+					//$("#last_"+i+"_monto").html(costo[i]);
+					if(costo[i].length>2){
+						$("#last_"+i+"_monto").html("$"+costo[i].substring(0, costo[i].length-2) + "," + costo[i].substring(costo[i].length-2, costo[i].length));
+					}else if(costo[i].length>1){
+						$("#last_"+i+"_monto").html("$0,"+costo[i]);
+					}else{
+						$("#last_"+i+"_monto").html("$0,0"+costo[i]);
+					}
+					$("#last_"+i).show();
 				}
-				$("#last_"+i).show();
+			}else{
+				navigator.notification.alert(
+						"No posee registro de estacionamientos",
+						function(){app.mainMenu();},
+						'Mensaje del Sistema',
+						'Aceptar'
+						);
 			}
 			
 		};

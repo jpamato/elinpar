@@ -1,3 +1,4 @@
+primerLogin=true;
 var app = {
     // Application Constructor
     init: function() {
@@ -13,6 +14,7 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', app.onDeviceReady);
+	document.addEventListener("resume", app.autoLogin, false);
 	/*$(document).on("keypress", "form", function(event) { 
 		$(this).next(':input').focus();
    		return event.keyCode != 13;
@@ -26,9 +28,19 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
 	//$("#header").html("init");
+	var h = $(window).height()-$("#header").height()-2*$("#borderTop").height();
 
+	$("#placa").css("height",h+"px");
+	$("#navlist").css("height",h+"px");
+	$("#cerrar").css("height",h+"px");
+	$("#estacionar").css("height",h+"px");
+	$("#raspadita").css("height",h+"px");
+	$("#saldo").css("height",h+"px");
+	$("#ultimos").css("height",h+"px");
+
+	app.autoLogin();
 	app.menuInit();
-	login.init();
+	
     },
 
     menuInit: function(){
@@ -36,26 +48,29 @@ var app = {
 	$( "#estacionaForm" ).submit(function( event ) {
 		var domain = $("#patenteInE").is(":visible") ? $( "input#patenteInE" ).val() : $( "select#selPatenteE" ).val();
 
-		var regex = /^[a-zA-Z]{3}\d{3}$/;
-		if(domain.match(regex)){
-			serverCom.Estacionar($( "input#horasIn" ).val(),domain,$( "input#calleIn" ).val());
-			$( "input#horasIn" ).val('');
-			$( "input#calleIn" ).val('');
-			$( "input#patenteInE" ).val('');
-		}else{
-			navigator.notification.alert(
-						'Por favor reintroduzca su patente repetando el patrón de letras y números AAA111',
-						null,
-						'Mensaje del Sistema',
-						'Aceptar'
-						);	
-			$( "input#patenteInE" ).val('');
-		}
+		setTimeout(function(){$.mobile.loading( "show", {
+			            text: "cargando...",
+			            textVisible: true,
+			            theme: "b",
+			            textonly: null,
+			            html: ""   });}, 20);
+		
+		serverCom.Estacionar($( "input#horasIn" ).val(),domain,$( "input#calleIn" ).val());
+		$( "input#horasIn" ).val('');
+		$( "input#calleIn" ).val('');
+		$( "input#patenteInE" ).val('');
+		
 		event.preventDefault();
 		event.stopImmediatePropagation();		
 	});
 
 	$( "#raspaForm" ).submit(function( event ) {
+		setTimeout(function(){$.mobile.loading( "show", {
+			            text: "cargando...",
+			            textVisible: true,
+			            theme: "b",
+			            textonly: null,
+			            html: ""   });}, 20);
 		serverCom.AsociarRaspadita($( "input#raspaIn" ).val());
 		event.preventDefault();
 		event.stopImmediatePropagation();
@@ -64,20 +79,18 @@ var app = {
 
 	$( "#cerrarForm" ).submit(function( event ) {
 		var domain = $("#patenteInC").is(":visible") ? $( "input#patenteInC" ).val() : $( "select#selPatenteC" ).val();
-		var regex = /^[a-zA-Z]{3}\d{3}$/;
-		if(domain.match(regex)){
-			serverCom.Cerrar(domain);
-			$( "input#patenteInC" ).val('');
-		}else if(domain=="Todas"){
+		setTimeout(function(){$.mobile.loading( "show", {
+			    text: "cargando...",
+			    textVisible: true,
+			    theme: "b",
+			    textonly: null,
+			    html: ""   });}, 20);
+			
+		if(domain=="Todas"){
 			serverCom.Cerrar("");
 			$( "input#patenteInC" ).val('');
 		}else{
-			navigator.notification.alert(
-						'Por favor reintroduzca su patente repetando el patrón de letras y números AAA111',
-						null,
-						'Mensaje del Sistema',
-						'Aceptar'
-						);	
+			serverCom.Cerrar(domain);
 			$( "input#patenteInC" ).val('');
 		}
 		event.preventDefault();
@@ -134,6 +147,12 @@ var app = {
 		$("#navlist").hide();
 		$("#saldo").show();
 		$("#back").show();
+		setTimeout(function(){$.mobile.loading( "show", {
+			            text: "cargando...",
+			            textVisible: true,
+			            theme: "b",
+			            textonly: null,
+			            html: ""   });}, 20);
 		serverCom.ConsultarSaldo();
 	});
 	$("#toUltimos").unbind('click').click( function(){
@@ -141,6 +160,12 @@ var app = {
 		$("#navlist").hide();
 		$("#ultimos").show();
 		$("#back").show();
+		setTimeout(function(){$.mobile.loading( "show", {
+			            text: "cargando...",
+			            textVisible: true,
+			            theme: "b",
+			            textonly: null,
+			            html: ""   });}, 20);
 		serverCom.Ultimos();
 	});
 	$("#toRaspadita").unbind('click').click( function(){
@@ -191,9 +216,25 @@ var app = {
 	$("#back").hide();
     },
 
+    autoLogin : function(){
+	    	if(primerLogin){
+			login.init();
+		}else{
+			$.mobile.loading( "show", {
+					    text: "reconectando...",
+					    textVisible: true,
+					    theme: "b",
+					    textonly: null,
+					    html: ""   });
+			login.login();
+		}
+	 setTimeout(app.autoLogin, 570000);
+    },
+
     resetApp : function(buttonIndex){
 	if(buttonIndex>1)localStorage.clear();
     }
+    
 };
 
 app.init();

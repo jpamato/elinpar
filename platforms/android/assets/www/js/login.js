@@ -14,6 +14,12 @@ var login = (function(){
 				smsSignUp.sign();
 			}else{
 				//localStorage.clear();
+				setTimeout(function(){$.mobile.loading( "show", {
+			            text: "iniciando...",
+			            textVisible: true,
+			            theme: "a",
+			            textonly: null,
+			            html: ""   });}, 20);
 				login.login();
 				//smsSignUp.sign();
 			}

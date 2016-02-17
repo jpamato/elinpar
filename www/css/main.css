@@ -43,6 +43,12 @@ text-decoration: none;
 background: #ffffff;
 }
 
+ul#navlist li button{
+	font-size:18px;
+	width:90%;
+	left:5%;
+}
+
 #navcontainer>ul#navlist li a { width: auto; }
 
 ul#navlist li#active a

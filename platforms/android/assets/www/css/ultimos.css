@@ -1,6 +1,8 @@
 #ultimos{
+	background-color:white;
 	text-align:left;
 	padding: 15px 15px 15px 10px;	
+	height:100%;
 }
 #ultimos #left{
 	width:50%;

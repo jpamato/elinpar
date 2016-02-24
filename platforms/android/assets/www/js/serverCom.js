@@ -162,7 +162,10 @@ var serverCom = {
 							'Aceptar'
 							);
 						primerLogin=false;
+					}else{
+						$("#placa").hide();
 					}
+					
 				});
 
 			}else{

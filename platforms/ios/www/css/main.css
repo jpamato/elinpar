@@ -1,6 +1,7 @@
 #navcontainer
 {
 //background: #ffffff;
+//position: absolute;
 width: 100%;
 height: 100%;
 margin: 0 0;
@@ -8,6 +9,7 @@ padding: 0em 0;
 font-family: "Arial";
 font-size: 22px;
 text-align: center;
+position:relative;
 //text-transform: lowercase;
 }
 
@@ -39,6 +41,12 @@ border-style: solid;
 color: #000;
 text-decoration: none;
 background: #ffffff;
+}
+
+ul#navlist li button{
+	font-size:18px;
+	width:90%;
+	left:5%;
 }
 
 #navcontainer>ul#navlist li a { width: auto; }

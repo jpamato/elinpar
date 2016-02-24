@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-device",
-  "version": "1.1.1",
+  "version": "1.1.0",
   "description": "Cordova Device Plugin",
   "cordova": {
     "id": "cordova-plugin-device",
@@ -16,8 +16,7 @@
       "wp8",
       "windows8",
       "windows",
-      "browser",
-      "osx"
+      "browser"
     ]
   },
   "repository": {
@@ -39,8 +38,7 @@
     "cordova-wp8",
     "cordova-windows8",
     "cordova-windows",
-    "cordova-browser",
-    "cordova-osx"
+    "cordova-browser"
   ],
   "author": "Apache Software Foundation",
   "license": "Apache 2.0"

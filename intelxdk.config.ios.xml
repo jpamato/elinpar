@@ -33,9 +33,9 @@
 <splash platform="ios" src="img/logo768x1024.png" width="768" height="1024" orientation="portrait"/>
 <splash platform="ios" src="img/logo750x1334.png" width="750" height="1334" orientation="portrait"/>
 <intelxdk:plugin intelxdk:name="sms" intelxdk:value="com.jsmobile.plugins.sms" intelxdk:version="0.0.1" intelxdk:checksum="e5531a20" intelxdk:type="file"/>
-<intelxdk:plugin intelxdk:name="Device" intelxdk:value="cordova-plugin-device" intelxdk:version="1.1.1" intelxdk:checksum="927290ca"/>
 <intelxdk:plugin intelxdk:name="Notification" intelxdk:value="cordova-plugin-dialogs" intelxdk:version="1.2.0" intelxdk:checksum="1af74557"/>
-<intelxdk:plugin intelxdk:name="Whitelist" intelxdk:value="cordova-plugin-whitelist" intelxdk:version="1.2.0" intelxdk:checksum="79b62cb1"/>
+<intelxdk:plugin intelxdk:name="Device" intelxdk:value="cordova-plugin-device" intelxdk:version="1.1.0" intelxdk:checksum="1eae5d64"/>
+<intelxdk:plugin intelxdk:name="Whitelist" intelxdk:value="cordova-plugin-whitelist" intelxdk:version="1.2.1" intelxdk:checksum="c2b7660b"/>
 <preference name="ios-target" value="8.0"/>
 <preference name="ios-configuration" value="adhoc"/>
 <preference name="Fullscreen" value="true"/>

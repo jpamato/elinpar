@@ -1,0 +1,12 @@
+#mercadopago{
+	background-color:white;
+	text-align:left;
+	padding: 15px 15px 15px 10px;	
+	height:100%;
+	font-size:14px;
+}
+
+#submitMP{
+	width:92%;
+	left:4%;
+}

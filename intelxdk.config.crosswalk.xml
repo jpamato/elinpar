@@ -8,9 +8,9 @@
 <content src="index.html"/>
 <access origin="*"/>
 <intelxdk:plugin intelxdk:name="sms" intelxdk:value="com.jsmobile.plugins.sms" intelxdk:version="0.0.1" intelxdk:checksum="e5531a20" intelxdk:type="file"/>
-<intelxdk:plugin intelxdk:name="Device" intelxdk:value="cordova-plugin-device" intelxdk:version="1.1.1" intelxdk:checksum="927290ca"/>
 <intelxdk:plugin intelxdk:name="Notification" intelxdk:value="cordova-plugin-dialogs" intelxdk:version="1.2.0" intelxdk:checksum="1af74557"/>
-<intelxdk:plugin intelxdk:name="Whitelist" intelxdk:value="cordova-plugin-whitelist" intelxdk:version="1.2.0" intelxdk:checksum="79b62cb1"/>
+<intelxdk:plugin intelxdk:name="Device" intelxdk:value="cordova-plugin-device" intelxdk:version="1.1.0" intelxdk:checksum="1eae5d64"/>
+<intelxdk:plugin intelxdk:name="Whitelist" intelxdk:value="cordova-plugin-whitelist" intelxdk:version="1.2.1" intelxdk:checksum="c2b7660b"/>
 <preference name="android-minSdkVersion" value="14"/>
 <preference name="android-targetSdkVersion" value="19"/>
 <preference name="android-installLocation" value="auto"/>

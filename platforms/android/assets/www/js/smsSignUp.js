@@ -8,8 +8,8 @@ var smsSignUp = {
 			textMessage:"TIGRE"			
 		};
 
-		var regex = /^[a-zA-Z]{3}\d{3}$/;
-		if(results.buttonIndex>1&&results.input1.match(regex)){
+		//var regex = /^[a-zA-Z]{3}\d{3}$/;
+		//if(results.buttonIndex>1&&results.input1.match(regex)){
 
 			msg.textMessage = msg.textMessage + " " +results.input1.toUpperCase();
 
@@ -20,9 +20,9 @@ var smsSignUp = {
 				//main.onLoading(true);
 				smsSignUp.onPatenteDone();
 				}, function(error) {
-				//$("#header").html("error");				
+				//$("#header").html("error");
 				navigator.notification.alert(
-					'el mensaje SMS no pudo enviarse: ' + error.message,
+					'el mensaje SMS no pudo enviarse: ' + error.message + '. Por favor cierre la aplicación y vuelva a intentarlo más tarde',
 					null,
 					'Error al enviar el SMS',
 					'Done'
@@ -30,9 +30,9 @@ var smsSignUp = {
 			});		
 
 			//smsSignUp.onPatenteDone()
-		}else{
+		/*}else{
 			smsSignUp.onConfirm(2);
-		}
+		}*/
 	},
 
 	sendImei : function(){
@@ -51,7 +51,7 @@ var smsSignUp = {
 		}, function(error) {
 			//$("#header").html("error");			
 			navigator.notification.alert(
-					'el mensaje SMS no pudo enviarse: ' + error.message,
+					'el mensaje SMS no pudo enviarse: ' + error.message + '. Por favor cierre la aplicación y vuelva a intentarlo más tarde',
 					null,
 					'Error al enviar el SMS',
 					'Done'
@@ -67,9 +67,15 @@ var smsSignUp = {
 		//console.log("sign");
 		//$("#header").html(buttonIndex);
 		if(buttonIndex>1){
-			navigator.notification.prompt ('Por favor introduzca su patente repetando el patrón de letras y números', smsSignUp.sendPatente, 'Registrando patente', ['salir','continuar'], 'AAA111');
-		}else{
-			navigator.app.exitApp();
+			navigator.notification.prompt ('Por favor introduzca su patente', smsSignUp.sendPatente, 'Registrando patente', ['salir','continuar'], 'AAA111');
+		}else{		
+			navigator.notification.alert(
+					'por favor cierre la aplicación y vuelva a intentarlo más tarde',
+					null,
+					'Mensaje del Sistema',
+					'Done'
+			);
+			//navigator.app.exitApp();
 		}
 	},
 
@@ -78,8 +84,14 @@ var smsSignUp = {
 		//$("#header").html("sign2");
 		if(buttonIndex>1){
 			smsSignUp.sendImei();
-		}else{
-			navigator.app.exitApp();
+		}else{			
+			navigator.notification.alert(
+					'por favor cierre la aplicación y vuelva a intentarlo más tarde',
+					null,
+					'Mensaje del Sistema',
+					'Done'
+			);
+			//navigator.app.exitApp();
 		}
 	},
 
@@ -102,6 +114,10 @@ var smsSignUp = {
 	sign : function(){			
 		navigator.notification.confirm ('Para completar la instalación se necesita enviar un mensaje de texto a su cargo. ¿desea continuar?', smsSignUp.onConfirm, 'SeiN Neuquen Estacionamiento - ATENCION', ['salir','continuar']);
 		//setTimeout(function(){ serverCom.GetUserForImei(device.uuid.replace(/\W/g, ''));}, smsTimeOut);
-	}	
+	},
+
+	stopLoadding : function(){
+		setTimeout(function(){$.mobile.loading('hide');}, 200);
+	}
 
 };

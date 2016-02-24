@@ -1,22 +1,34 @@
 var login = (function(){
 	return {
 		init : function(){
-			console.log("login");
-			var user = localStorage.getItem("user");
-			//console.log(user);
-			//$("#header").html(user);
+			//console.log("login");
+			//$("#header").html("login");
+			var user = localStorage.getItem("user");			
 			if(user==null){			
-				//localStorage.setItem("user","carlo");
-				//localStorage.setItem("user",device.uuid);
+				setTimeout(function(){$.mobile.loading( "show", {
+			            text: "configurando...",
+			            textVisible: true,
+			            theme: "a",
+			            textonly: null,
+			            html: ""   });}, 20);
 				smsSignUp.sign();
 			}else{
-				//localStorage.setItem("user",null);
-				localStorage.clear();
+				//localStorage.clear();
+				setTimeout(function(){$.mobile.loading( "show", {
+			            text: "iniciando...",
+			            textVisible: true,
+			            theme: "a",
+			            textonly: null,
+			            html: ""   });}, 20);
+				login.login();
+				//smsSignUp.sign();
 			}
-			user = localStorage.getItem("user");
-			console.log(user);
-			//$("#header").html(user);
-			$("#header").html("login");
+			//$("#header").html(user);			
+		},
+
+		login: function(){
+			serverCom.GetNonce();
 		}
+
 	};
 })();

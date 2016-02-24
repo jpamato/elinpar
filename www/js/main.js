@@ -6,6 +6,7 @@ var app = {
 
 	/*app.menuInit();
 	$("#placa").hide();
+	merpago.init();
 	//login.init();*/
     },
     // Bind Event Listeners
@@ -40,6 +41,8 @@ var app = {
 
 	app.autoLogin();
 	app.menuInit();
+
+	mercadopago.init();
 	
     },
 
@@ -185,6 +188,14 @@ var app = {
 		myselect.selectmenu("refresh");
 		$("#back").show();
 	});
+
+
+	$("#toMP").unbind('click').click( function(){
+		$("#header").html("Cargar Crédito");
+		$("#navlist").hide();
+		$("#mercadopago").show();
+		$("#back").show();
+	});
 	
 	/*$("#reset").click( function(){
              navigator.notification.confirm ('¿resetear aplicación?', app.resetApp, 'RESET APP', ['cancelar','continuar']);
@@ -219,14 +230,15 @@ var app = {
     autoLogin : function(){
 	    	if(primerLogin){
 			login.init();
-		}else{
+		}else{			
 			$.mobile.loading( "show", {
 					    text: "reconectando...",
 					    textVisible: true,
 					    theme: "b",
 					    textonly: null,
 					    html: ""   });
-			login.login();
+			$("#placa").show();
+			login.login();			
 		}
 	 setTimeout(app.autoLogin, 570000);
     },

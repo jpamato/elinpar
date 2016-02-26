@@ -157,7 +157,7 @@ var serverCom = {
 					if(primerLogin){
 						navigator.notification.alert(
 							mess,
-							function(){$("#placa").hide()},
+							function(){$("#placa").hide();serverCom.GetMPConfig();},
 							"",
 							'Aceptar'
 							);
@@ -166,7 +166,7 @@ var serverCom = {
 						$("#placa").hide();
 					}
 					
-				});
+				});			
 
 			}else{
 				navigator.notification.alert(
@@ -178,6 +178,88 @@ var serverCom = {
 			}
 
 			setTimeout(function(){$.mobile.loading('hide');}, 200);
+		};
+		serverCom.request();
+	},
+
+	GetMPConfig : function(){
+		$("#toMP").hide();
+		var user = localStorage.getItem("user");
+		serverCom.soapRequest = soapBeg+
+		"<ns1:GetMPRechargeConfiguration>"+
+		"<ns1:parkingId>"+parkingID_Tigre+"</ns1:parkingId>"+
+		"<ns1:userId>"+user+"</ns1:userId>"+
+		"<ns1:transactionId>"+transaccionID+"</ns1:transactionId>"+
+		"<ns1:token>"+token+"</ns1:token>"+		
+		"</ns1:GetMPRechargeConfiguration>"+
+		soapEnd;			
+
+		transaccionID++;
+
+		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){
+			if(status=="success"){				
+				var config = $(xmlHttpRequest.responseXML).find('GetMPRechargeConfigurationResponse').find('MPConfiguration');
+
+				if(config.length>0){			
+					$("#toMP").show();					
+
+					var key = config.find('PublicKey').text();
+					merpago.init(key);
+
+					navigator.notification.alert(
+							key,
+							null,
+							'Mensaje del Sistema',
+							'Aceptar'
+							);
+
+					var amounts = [];
+					config.find('Amounts').find('int').each(function(){
+						amounts.push($(this).text());		
+					});
+
+					if(amounts.length>0){
+						var option = '';
+						for (var i=0;i<amounts.length;i++){
+					   		option += '<option value="'+ amounts[i] + '">' + amounts[i] + '</option>';
+						}						
+						$("#montos_fijos").html(option);
+					}else{
+						var min = config.find('Range').find('Min').text();
+						var max = config.find('Range').find('Max').text();
+						var step = config.find('Range').find('Step').text();
+						var option = '';
+						while(min<max){
+							option += '<option value="'+min + '">' + min + '</option>';
+							min+=step;
+						}
+						$("#montos_fijos").html(option);
+					}
+					
+					navigator.notification.alert(
+							config,
+							null,
+							'Mensaje del Sistema',
+							'Aceptar'
+							);
+
+				}else{
+					$("#toMP").hide();
+					navigator.notification.alert(
+							"No hay MP",
+							null,
+							'Mensaje del Sistema',
+							'Aceptar'
+							);
+				}
+			}else{
+				navigator.notification.alert(
+					"No fue posible conectarse al servidor. Por favor reintente más tarde.",
+					function(){app.mainMenu();},
+					'Mensaje del Sistema',
+					'Aceptar'
+					);
+			}
 		};
 		serverCom.request();
 	},

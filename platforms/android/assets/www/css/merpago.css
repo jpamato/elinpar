@@ -6,6 +6,26 @@
 	font-size:14px;
 }
 
+#mp_medios{
+	vertical-align: middle;	
+}
+
+#mp_medios button{
+	text-align:left;
+	font-size:18px;
+	width:90%;
+	height:40px;
+        margin-left: 5%;
+}
+
+#mp_medios .left{	
+	float: left;
+	margin-right: 20px;
+}
+
+#mp_medios .right{	
+}
+
 #submitMP{
 	width:92%;
 	left:4%;

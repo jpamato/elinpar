@@ -100,6 +100,20 @@ var app = {
 		event.stopImmediatePropagation();		
 	});
 
+	$( "#mp_monto_Form" ).submit(function( event ) {
+		setTimeout(function(){$.mobile.loading( "show", {
+			            text: "cargando...",
+			            textVisible: true,
+			            theme: "b",
+			            textonly: null,
+			            html: ""   });}, 20);
+		//$( "select#montos_fijos" ).val();
+		$("#mp_monto").hide();
+		$("#mp_medios").show();
+		event.preventDefault();
+		event.stopImmediatePropagation();		
+	});
+
 	$( "button#back" ).unbind('click').click( function(){
 		app.mainMenu();
 	});
@@ -194,6 +208,11 @@ var app = {
 		$("#header").html("Cargar Crédito");
 		$("#navlist").hide();
 		$("#mercadopago").show();
+		$("#mp_monto").show();
+		$("#mp_medios").hide();
+		$("#mp_datos").hide();
+		$("#mp_confirmar").hide();
+		$("#mp_resultado").hide();
 		$("#back").show();
 	});
 	

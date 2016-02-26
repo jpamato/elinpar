@@ -1,10 +1,40 @@
 var merpago = (function(){
-	return {
-		init : function(){
-			/* Reemplaza por tu public_key */
-			/*Mercadopago.setPublishableKey("00000000-1111-2222-3333-444444444444");
 
-			  var mpResponseHandler = function(status, response) {
+		/*request : function(){
+			$.ajax({
+				url:serverCom.url,
+				type: "POST",
+				dataType: "xml",
+				data: serverCom.soapRequest,
+				complete: serverCom.onReqComplete,
+				contentType: "text/xml; charset=\"utf-8\""
+			});
+		},*/
+
+	return {
+		init : function(key){
+			 
+			Mercadopago.setPublishableKey(key);
+			//Mercadopago.setPublishableKey("TEST-ef97d076-fc1d-4747-a987-fae632e759a6");
+
+			Mercadopago.getAllPaymentMethods(respuesta);
+
+    			function respuesta(status, response) {
+			        console.log(status);
+				var buttons = '';
+				$.each(response, function(i, v) {
+    					//console.log(v.id);
+					//console.log(v.thumbnail);
+					buttons+='<button id=mp_cardButton_'+v.id+'><div class=left><img src='+v.thumbnail+'></div><span class=right>'+v.name+'</span></button>';
+					return;					
+				});
+				console.log(JSON.stringify(response));
+
+				$("#mp_medios").html(buttons);
+			        
+			}
+
+		/*	  var mpResponseHandler = function(status, response) {
 			  var $form = $('#form-pagar-mp');
 			  if (response.error) {
 			  alert("ocurri&oacute; un error: "+JSON.stringify(response));
@@ -22,7 +52,7 @@ var merpago = (function(){
 			  event.preventDefault();
 			  event.stopImmediatePropagation();
 			  return false;
-			  });*/
+			  });
 
 			doSubmit = false;
 			addEvent(document.querySelector('input[data-checkout="cardNumber"]'), 'keyup', guessingPaymentMethod);
@@ -108,7 +138,7 @@ var merpago = (function(){
 						document.querySelector("input[name=paymentMethodId]").value = response[0].id;
 					}
 				}
-			};
+			};*/
 		}
 	};
 })();

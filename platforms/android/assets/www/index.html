@@ -36,7 +36,7 @@
 			<li><button id="toUltimos">Últimos Estacionamientos</a></li>
 			<li><button id="toRaspadita">Asociar Raspadita</button></li>
 			<li><button id="toCerrar">Cerrar Estacionamiento</button></li>
-			<!--<li><button id="toMP">Cargar Crédito</button></li>-->
+			<li><button id="toMP">Cargar Crédito</button></li>
 			<!--<li><a id="reset">Reset App</a></li>-->
 		</ul>
 	
@@ -137,6 +137,33 @@
 	</div>
 
 	<div id="mercadopago">
+
+		<div id="mp_monto">			
+			<form id="mp_monto_Form">
+				<label for="montos_fijos">Monto a recargar:</label>
+				<select name="montos_fijos" id="montos_fijos">
+				</select>			
+				<input type="submit" value="Recargar" data-corners="true">
+			</form>
+		</div>
+
+		<div id="mp_medios">
+		
+		</div>
+
+		<div id="mp_datos">
+
+		</div>
+
+		<div id="mp_confirmar">
+
+		</div>
+
+
+		<div id="mp_resultado">
+
+		</div>
+
 		<!--<form id="form-pay-mp">
 		<label>Card number: </label><input data-checkout="cardNumber" type="text"/>
 		<div id="cvc"><label>CVC: </label><input data-checkout="securityCode" type="text"/></div>
@@ -148,7 +175,7 @@
         	<p><input id="submitMP" type="submit" value="Make payment"></p>
 	        </form>-->
 
-	<!--	<form action="" method="post" id="pay" name="pay" >
+		<!--<form action="" method="post" id="pay" name="pay" >
 			<fieldset>
 				<ul>
 					<li>

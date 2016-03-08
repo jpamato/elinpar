@@ -6,7 +6,7 @@ var app = {
 
 	/*app.menuInit();
 	$("#placa").hide();
-	merpago.init();
+	merpago.init("TEST-ef97d076-fc1d-4747-a987-fae632e759a6");
 	//login.init();*/
     },
     // Bind Event Listeners
@@ -41,8 +41,6 @@ var app = {
 
 	app.autoLogin();
 	app.menuInit();
-
-	mercadopago.init();
 	
     },
 
@@ -78,7 +76,7 @@ var app = {
 		event.preventDefault();
 		event.stopImmediatePropagation();
 		$( "input#raspaIn" ).val('');
-	});
+	});	
 
 	$( "#cerrarForm" ).submit(function( event ) {
 		var domain = $("#patenteInC").is(":visible") ? $( "input#patenteInC" ).val() : $( "select#selPatenteC" ).val();
@@ -101,18 +99,75 @@ var app = {
 	});
 
 	$( "#mp_monto_Form" ).submit(function( event ) {
-		setTimeout(function(){$.mobile.loading( "show", {
+		/*setTimeout(function(){$.mobile.loading( "show", {
 			            text: "cargando...",
 			            textVisible: true,
 			            theme: "b",
 			            textonly: null,
-			            html: ""   });}, 20);
+			            html: ""   });}, 20);*/
 		//$( "select#montos_fijos" ).val();
+		
+		merpago.monto = $("#montos_fijos").val();
+		$("#montos_fijos").val('');
+		$("#amount").val(merpago.monto);
+
 		$("#mp_monto").hide();
 		$("#mp_medios").show();
+		var myselect = $("select#docType");
+		myselect[0].selectedIndex = 0;
+		myselect.selectmenu("refresh");
 		event.preventDefault();
 		event.stopImmediatePropagation();		
 	});
+
+	$( ".required" ).focusout(function() {
+		if($(this).val()==""){
+			console.log("required: "+$(this).attr('id'));
+		}else{
+			console.log($(this).val());
+		}
+	});
+
+	$( "#mp_continuar" ).unbind('click').click( function(){		
+		$("#mp_datos_2").show();	
+		//console.log($("#cardNumber").val().slice(0,6));
+		var cn = $("#cardNumber").val();
+		merpago.setIssuers(cn.slice(0,6));
+		$("#cardLast4").html(cn.slice(cn.length-4,cn.length));
+		
+		showCuotas(mpJsonPrefs.default_installments);
+
+		$("#mp_datos_1").hide();
+
+		event.preventDefault();
+		event.stopImmediatePropagation();
+	});
+
+	$( "#installments" ).change(function() {
+		showCuotas($(this).val());
+	});
+	
+	function showCuotas(installments){
+		var costoTxt = "";
+		if(merpago.monto.length>2){
+			costoTxt = merpago.monto.substring(0, merpago.monto.length-2) + "," + merpago.monto.substring(merpago.monto.length-2, merpago.monto.length);
+		}else if(merpago.monto.length>1){
+			costoTxt = "0,"+merpago.monto;
+		}else{
+			costoTxt = "0,0"+merpago.monto;
+		}
+
+		var costoCuotaTxt = (parseFloat(merpago.monto)/(installments*100)).toFixed(2);
+		costoCuotaTxt = costoCuotaTxt.replace(".", ","); 	
+
+		var cuotasTxt = "";
+		if(installments>1){
+			cuotasTxt = installments+" cuotas de $"+costoCuotaTxt+" ($ "+costoTxt+")";
+		}else{
+			cuotasTxt = installments+" cuota de $"+costoCuotaTxt+" ($ "+costoTxt+")";
+		}
+		$("#mp_cuotas").html(cuotasTxt);
+	}
 
 	$( "button#back" ).unbind('click').click( function(){
 		app.mainMenu();
@@ -144,6 +199,13 @@ var app = {
        			inputs.eq(inputs.index(this) + 1).focus();
 		    	return false;    //<---- Add this line
 		 }
+	});
+	
+	$("#mp_cuotas").unbind('click').click( function(){
+		$("#cuotasDiv").show();
+		var myselect1 = $("select#installments");
+		myselect1[0].selectedIndex = 0;
+		myselect1.selectmenu("refresh");
 	});
 
 	app.mainMenu();
@@ -207,13 +269,19 @@ var app = {
 	$("#toMP").unbind('click').click( function(){
 		$("#header").html("Cargar Crédito");
 		$("#navlist").hide();
-		$("#mercadopago").show();
+		$("#merpago").show();
 		$("#mp_monto").show();
+		//$("#mp_monto").hide();
 		$("#mp_medios").hide();
 		$("#mp_datos").hide();
-		$("#mp_confirmar").hide();
+		//$("#mp_datos").show();
+		$("#mp_datos_1").show();
+		$("#mp_datos_2").hide();
 		$("#mp_resultado").hide();
 		$("#back").show();
+		var myselect = $("select#montos_fijos");
+		myselect[0].selectedIndex = 0;
+		myselect.selectmenu("refresh");
 	});
 	
 	/*$("#reset").click( function(){
@@ -240,7 +308,7 @@ var app = {
 	$("#ultimos").hide();
 	$("#cerrar").hide();
 	$("#raspadita").hide();
-	$("#mercadopago").hide();
+	$("#merpago").hide();
 	$("#header").html("Estacionamiento");
 	$("#navlist").show();
 	$("#back").hide();

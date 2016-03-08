@@ -5,6 +5,9 @@ var transaccionID = 0;
 var nonce;
 var token;
 var plates = [];
+var mpJsonPrefs = {};
+var mpFormURL="";
+var mpItemId="";
 var serverCom = {
 
 	url : productServiceUrl = 'https://www.elinpark.com:52501/ElinparkMobile.asmx',
@@ -36,7 +39,7 @@ var serverCom = {
 
 		transaccionID++;	
 		
-		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){
+		serverCom.onReqComplete = function (xmlHttpRequest, status){
 			if(status=="success"){						
 			$(xmlHttpRequest.responseXML)
 				.find('GetUserForImeiResult')
@@ -76,7 +79,7 @@ var serverCom = {
 			"<ns1:userId>"+user+"</ns1:userId>"+			
 			"</ns1:getNonce>"+
 			soapEnd;
-		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){
+		serverCom.onReqComplete = function (xmlHttpRequest, status){
 			if(status=="success"){
 				nonce = $(xmlHttpRequest.responseXML).find('getNonceResult').text();
 				localStorage.setItem("nonce",nonce);
@@ -132,7 +135,7 @@ var serverCom = {
 			"</ns1:Login>"+
 			soapEnd;		
 		
-		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){
+		serverCom.onReqComplete = function (xmlHttpRequest, status){
 			if(status=="success"){
 							
 				plates = [];
@@ -196,7 +199,7 @@ var serverCom = {
 
 		transaccionID++;
 
-		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){
+		serverCom.onReqComplete = function (xmlHttpRequest, status){
 			if(status=="success"){				
 				var config = $(xmlHttpRequest.responseXML).find('GetMPRechargeConfigurationResponse').find('MPConfiguration');
 
@@ -204,14 +207,18 @@ var serverCom = {
 					$("#toMP").show();					
 
 					var key = config.find('PublicKey').text();
-					merpago.init(key);
 
-					navigator.notification.alert(
-							key,
+					mpJsonPrefs = JSON.parse(config.find('JSONPreferences').text());
+
+					mpFormURL = config.find('BaseURI').text()+config.find('CustomerPath').text();
+					mpItemId = config.find('MPItem').find('Id').text();
+
+					/*navigator.notification.alert(
+							mpJsonPrefs,
 							null,
 							'Mensaje del Sistema',
 							'Aceptar'
-							);
+							);*/
 
 					var amounts = [];
 					config.find('Amounts').find('int').each(function(){
@@ -221,7 +228,7 @@ var serverCom = {
 					if(amounts.length>0){
 						var option = '';
 						for (var i=0;i<amounts.length;i++){
-					   		option += '<option value="'+ amounts[i] + '">' + amounts[i] + '</option>';
+					   		option += '<option value="'+ amounts[i] + '">$ ' + (amounts[i]/100).toFixed(2) + '</option>';
 						}						
 						$("#montos_fijos").html(option);
 					}else{
@@ -235,6 +242,7 @@ var serverCom = {
 						}
 						$("#montos_fijos").html(option);
 					}
+					merpago.init(key);
 					
 					navigator.notification.alert(
 							config,
@@ -278,7 +286,7 @@ var serverCom = {
 
 			transaccionID++;	
 
-		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){
+		serverCom.onReqComplete = function (xmlHttpRequest, status){
 			if(status=="success"){				
 				var mess = $(xmlHttpRequest.responseXML).find('AssociatePrepaidCardResult').find('Message').text();
 				var balance = $(xmlHttpRequest.responseXML).find('AssociatePrepaidCardResult').find('Balance').text();
@@ -333,7 +341,7 @@ var serverCom = {
 
 			transaccionID++;	
 
-		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){			
+		serverCom.onReqComplete = function (xmlHttpRequest, status){			
 			if(status=="success"){
 				var balance = $(xmlHttpRequest.responseXML).find('GetBalanceResult').find('Balance').text();
 				if(balance.length>2){
@@ -376,7 +384,7 @@ var serverCom = {
 
 			transaccionID++;	
 
-		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){
+		serverCom.onReqComplete = function (xmlHttpRequest, status){
 			if(status=="success"){
 				var error =  $(xmlHttpRequest.responseXML).find('NotifyParkingResponse').find('Status').find('Message').text();
 				if(error.length>0){
@@ -466,7 +474,7 @@ var serverCom = {
 
 			transaccionID++;	
 
-		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){			
+		serverCom.onReqComplete = function (xmlHttpRequest, status){			
 			if(status=="success"){
 				var domain = [];
 				var code = [];
@@ -543,7 +551,7 @@ var serverCom = {
 
 			transaccionID++;	
 
-		serverCom.onReqComplete = function endSaveProduct(xmlHttpRequest, status){			
+		serverCom.onReqComplete = function (xmlHttpRequest, status){			
 			if(status=="success"){
 				var message = $(xmlHttpRequest.responseXML).find('CloseParkingResult').find('Message').text();
 					

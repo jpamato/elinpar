@@ -136,7 +136,7 @@
 		</form>
 	</div>
 
-	<div id="mercadopago">
+	<div id="merpago">
 
 		<div id="mp_monto">			
 			<form id="mp_monto_Form">
@@ -152,7 +152,71 @@
 		</div>
 
 		<div id="mp_datos">
+		<form action="" method="post" id="pay" name="pay" >
+			<fieldset id="mp_datos_1">
+				<ul>
+					<label for="cardNumber">Número de tarjeta    <img style="vertical-align:middle" class="mp_datos_cardlogo"></label>
+					<input type="text" id="cardNumber" class='required' data-checkout="cardNumber" placeholder="4509 9535 6623 3704" />			
+					
+					<label for="cardExpirationMonth">Válida hasta:</label>
+					<div id="mp_datos_exp">
+						<fieldset class="ui-grid-c">
+    							<div class="ui-block-a"><input type="text" pattern="[0-9]{2}" id="cardExpirationMonth" data-checkout="cardExpirationMonth" placeholder="12" /></div>
+							<div class="ui-block-b"><input type="text" pattern="[0-9]{4}" id="cardExpirationYear" data-checkout="cardExpirationYear" placeholder="2015"/></div>
+							<div class="ui-block-c">&nbsp;</div>
+							<div class="ui-block-d">&nbsp;</div>
+						</fieldset>
+						 
+					</div>
+					
+					<label for="cardholderName">Nombre y apellido impreso en la tarjeta:</label>
+					<input type="text" id="cardholderName" data-checkout="cardholderName" placeholder="APRO" />
+					
+					<fieldset class="ui-grid-a">
+						<div class="ui-block-a">
+							<label for="docType">Tipo:</label>
+							<select id="docType" data-checkout="docType"></select>
+						</div>
+				
+						<div class="ui-block-b">
+							<label for="docNumber">Documento:</label>
+							<input type="text" id="docNumber" data-checkout="docNumber" placeholder="12345678" />		
+						</div>
+					</fieldset>
+				</ul>
+				<div id="mp_datos_continue">
+					<button id="mp_continuar">Continuar</button>
+				</div>
+			</fieldset>
 
+			<fieldset id="mp_datos_2">
+				<ul>
+					<div id="cardTitle"><img style="vertical-align:middle" class="mp_datos_cardlogo"><span id="mp_datos_conf_title"></span><span id="cardLast4"></span></div>					
+					<hr>
+
+					<div id="cardDetail">
+						<input type="hidden" id="amount" name="amount" />
+
+						<div id="cuotasDiv">
+						<select id="installments" name="installments"></select>
+						</div>
+
+						<a id="mp_cuotas"></a>
+						
+						<div id="bancosDiv">
+						<select id="issuer" name="issuer"></select>
+						</div>
+
+					</div>
+					<hr>
+					<label for="securityCode">Código de seguridad</label>
+					<input type="text" id="securityCode" data-checkout="securityCode" placeholder="123" />					
+				</ul>
+				<div id="mp_datos_submit">
+					<input type="submit" id="paySubmit" value="Confirmar" />
+				</div>				
+			</fieldset>
+		</form>	
 		</div>
 
 		<div id="mp_confirmar">

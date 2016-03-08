@@ -1,9 +1,19 @@
-#mercadopago{
+#merpago{
 	background-color:white;
 	text-align:left;
 	padding: 15px 15px 15px 10px;	
 	height:100%;
 	font-size:14px;
+}
+
+#merpago hr{
+	width:150%;
+	margin-left:-25%;
+	margin-top:8px;
+	margin-bottom:8px;
+	font-size:8px;
+	height:8px;
+	background-color:#ccc;
 }
 
 #mp_medios{
@@ -18,12 +28,53 @@
         margin-left: 5%;
 }
 
+#mp_datos_submit .ui-btn{
+	width:80%;	
+	margin-left:11%;
+}
+
 #mp_medios .left{	
 	float: left;
 	margin-right: 20px;
 }
 
 #mp_medios .right{	
+}
+#mp_datos{
+	text-align:left;
+	margin-left:-10%;
+}
+#mp_datos_exp div.ui-input-text{ width: 50px !important; height: 30px; }
+
+#mp_datos_exp .ui-input-text{ width:50px;}
+
+#docType-button{
+	//height:5px;
+	font-size:11px;
+}
+
+#mp_datos_continue .ui-btn{
+	width:90%;
+	margin-left:10%;
+}
+
+#cardExpirationMonth{float: left;}
+#cardExpirationYear{float: right;}
+
+#mp_cuotas{
+	margin-top:50px;
+	margin-bottom:50px;
+	font-size:14px;
+}
+
+#cardTitle{
+	//margin-top:8px;
+	margin-bottom:16px;
+}
+
+#cardDetail{
+	margin-top:16px;
+	margin-bottom:16px;
 }
 
 #submitMP{

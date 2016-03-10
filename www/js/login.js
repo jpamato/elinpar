@@ -5,7 +5,8 @@ var login = (function(){
 			//$("#header").html("login");
 			var user = localStorage.getItem("user");			
 			if(user==null){			
-				setTimeout(function(){$.mobile.loading( "show", {
+				setTimeout(function(){$("#placa").show();					
+				    $.mobile.loading( "show", {
 			            text: "configurando...",
 			            textVisible: true,
 			            theme: "a",
@@ -14,7 +15,8 @@ var login = (function(){
 				smsSignUp.sign();
 			}else{
 				//localStorage.clear();
-				setTimeout(function(){$.mobile.loading( "show", {
+				setTimeout(function(){$("#placa").show();
+				    $.mobile.loading( "show", {
 			            text: "iniciando...",
 			            textVisible: true,
 			            theme: "a",

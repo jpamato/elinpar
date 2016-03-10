@@ -46,8 +46,12 @@ var serverCom = {
 				.each(function(){
 					var userID = $(this).find('UserID').text();
 					var key = $(this).find('Key').text();
+										
+					/*localStorage.setItem("user",CryptoJS.AES.encrypt(userID, device.uuid));
+					localStorage.setItem("key",CryptoJS.AES.encrypt(key, device.uuid));*/
 					localStorage.setItem("user",userID);
 					localStorage.setItem("key",key);
+
 					var mess = $(this).find('Message').text();
 					//$("#header").html(userID);
 					/*navigator.notification.alert(
@@ -72,6 +76,7 @@ var serverCom = {
 	},
 
 	GetNonce : function(){
+		//var user = CryptoJS.AES.decrypt(localStorage.getItem("user"), device.uuid);
 		var user = localStorage.getItem("user");
 		//$("#header").html("nonce");
 		serverCom.soapRequest = soapBeg+
@@ -82,7 +87,6 @@ var serverCom = {
 		serverCom.onReqComplete = function (xmlHttpRequest, status){
 			if(status=="success"){
 				nonce = $(xmlHttpRequest.responseXML).find('getNonceResult').text();
-				localStorage.setItem("nonce",nonce);
 				/*navigator.notification.alert(
 							nonce,
 							null,
@@ -93,7 +97,7 @@ var serverCom = {
 			}else{
 				navigator.notification.alert(
 					"No fue posible conectarse al servidor. Por favor reintente más tarde.",
-					function(){app.mainMenu();},
+					setTimeout(function(){$("#placa").hide();$.mobile.loading('hide');}, 200),
 					'Mensaje del Sistema',
 					'Aceptar'
 					);
@@ -110,10 +114,11 @@ var serverCom = {
 
 		//$("#header").html(timeMS);
 
+		//var user = CryptoJS.AES.decrypt(localStorage.getItem("user"), device.uuid);
+		//var key = CryptoJS.AES.decrypt(localStorage.getItem("key"), device.uuid);
 		var user = localStorage.getItem("user");
 		var key = localStorage.getItem("key");
-		var auxCode = (Math.random()*1000).toFixed()+"";
-		//var nonce = localStorage.getItem("nonce");
+		var auxCode = (Math.random()*1000).toFixed()+"";		
 		//var userCode = login.getHashCode("45646544564654167606646543546541231657");		
 
 		var toHash = auxCode + nonce + user + timeMS + device.uuid.replace(/\W/g, '').toUpperCase();
@@ -174,19 +179,20 @@ var serverCom = {
 			}else{
 				navigator.notification.alert(
 					"No fue posible conectarse al servidor. Por favor reintente más tarde.",
-					function(){app.mainMenu();},
+					setTimeout(function(){$("#placa").hide();$.mobile.loading('hide');}, 200),
 					'Mensaje del Sistema',
 					'Aceptar'
 					);
 			}
 
-			setTimeout(function(){$.mobile.loading('hide');}, 200);
+			setTimeout(function(){$("#placa").hide();$.mobile.loading('hide');}, 200);
 		};
 		serverCom.request();
 	},
 
 	GetMPConfig : function(){
 		$("#toMP").hide();
+		//var user = CryptoJS.AES.decrypt(localStorage.getItem("user"), device.uuid);
 		var user = localStorage.getItem("user");
 		serverCom.soapRequest = soapBeg+
 		"<ns1:GetMPRechargeConfiguration>"+
@@ -273,6 +279,7 @@ var serverCom = {
 	},
 
 	AsociarRaspadita : function(tarjeta){
+		//var user = CryptoJS.AES.decrypt(localStorage.getItem("user"), device.uuid);
 		var user = localStorage.getItem("user");
 		serverCom.soapRequest = soapBeg+
 			"<ns1:AssociatePrepaidCard>"+
@@ -311,7 +318,7 @@ var serverCom = {
 					navigator.notification.alert(
 							mess,
 							null,
-							'Mensaje del Sistema',
+							$("#header").html(),
 							'Aceptar'
 							);
 				}
@@ -319,16 +326,17 @@ var serverCom = {
 				navigator.notification.alert(
 					"No fue posible conectarse al servidor. Por favor reintente más tarde.",
 					function(){app.mainMenu();},
-					'Mensaje del Sistema',
+					$("#header").html(),
 					'Aceptar'
 					);
 			}
-			setTimeout(function(){$.mobile.loading('hide');}, 200);
+			setTimeout(function(){$("#placa").hide();$.mobile.loading('hide');}, 200);
 		};
 		serverCom.request();
 	},
 
 	ConsultarSaldo : function(){
+		//var user = CryptoJS.AES.decrypt(localStorage.getItem("user"), device.uuid);
 		var user = localStorage.getItem("user");
 		serverCom.soapRequest = soapBeg+
 			"<ns1:GetBalance>"+
@@ -343,6 +351,7 @@ var serverCom = {
 
 		serverCom.onReqComplete = function (xmlHttpRequest, status){			
 			if(status=="success"){
+				
 				var balance = $(xmlHttpRequest.responseXML).find('GetBalanceResult').find('Balance').text();
 				if(balance.length>2){
 						balance = balance.substring(0, balance.length-2) + "," + balance.substring(balance.length-2, balance.length);
@@ -350,24 +359,25 @@ var serverCom = {
 						balance = "0,"+balance;
 					}else{
 						balance = "0,0"+balance;
-					}
+					}				
 				
-				$("#saldoVal").html(balance);
+				setTimeout(function(){$("#saldo").show();$("#saldoVal").html(balance);}, 200);
 			}else{
 				navigator.notification.alert(
 					"No fue posible conectarse al servidor. Por favor reintente más tarde.",
 					function(){app.mainMenu();},
-					'Mensaje del Sistema',
+					$("#header").html(),
 					'Aceptar'
 					);
 			}
 			
-			setTimeout(function(){$.mobile.loading('hide');}, 200);
+			setTimeout(function(){$("#placa").hide();$.mobile.loading('hide');}, 200);
 		};
 		serverCom.request();
 	},
 
 	Estacionar : function(horas,plate,subzona){
+		//var user = CryptoJS.AES.decrypt(localStorage.getItem("user"), device.uuid);
 		var user = localStorage.getItem("user");
 		if(horas.length<1)horas = 0;
 		serverCom.soapRequest = soapBeg+
@@ -391,7 +401,7 @@ var serverCom = {
 					navigator.notification.alert(
 									error,
 									function(){app.mainMenu();},
-									'Mensaje del Sistema',
+									$("#header").html(),
 									'Aceptar'
 									);
 				}else{
@@ -434,7 +444,7 @@ var serverCom = {
 							navigator.notification.alert(
 								"No se pudo realizar el estacionamiento, revise los datos ingresados",
 								null,
-								'Mensaje del Sistema',
+								$("#header").html(),
 								'Aceptar'
 								);
 					}
@@ -443,17 +453,17 @@ var serverCom = {
 				navigator.notification.alert(
 					"No fue posible conectarse al servidor. Por favor reintente más tarde.",
 					function(){app.mainMenu();},
-					'Mensaje del Sistema',
+					$("#header").html(),
 					'Aceptar'
 					);
 			}
-			setTimeout(function(){$.mobile.loading('hide');}, 200);
+			setTimeout(function(){$("#placa").hide();$.mobile.loading('hide');}, 200);
 		};
 		serverCom.request();
 	},
 
 	Ultimos : function(){
-
+		//var user = CryptoJS.AES.decrypt(localStorage.getItem("user"), device.uuid);
 		var user = localStorage.getItem("user");
 		serverCom.soapRequest = soapBeg+
 			"<ns1:GetLastParkings>"+
@@ -520,7 +530,7 @@ var serverCom = {
 					navigator.notification.alert(
 							"No posee registro de estacionamientos",
 							function(){app.mainMenu();},
-							'Mensaje del Sistema',
+							$("#header").html(),
 							'Aceptar'
 							);
 				}
@@ -528,16 +538,17 @@ var serverCom = {
 				navigator.notification.alert(
 					"No fue posible conectarse al servidor. Por favor reintente más tarde.",
 					function(){app.mainMenu();},
-					'Mensaje del Sistema',
+					$("#header").html(),
 					'Aceptar'
 					);
 			}	
-			setTimeout(function(){$.mobile.loading('hide');}, 200);
+			setTimeout(function(){$("#placa").hide();$.mobile.loading('hide');}, 200);
 		};
 		serverCom.request();
 	},
 
 	Cerrar : function(plate){
+		//var user = CryptoJS.AES.decrypt(localStorage.getItem("user"), device.uuid);
 		var user = localStorage.getItem("user");
 		serverCom.soapRequest = soapBeg+
 			"<ns1:CloseParking>"+
@@ -600,11 +611,11 @@ var serverCom = {
 				navigator.notification.alert(
 					"No fue posible conectarse al servidor. Por favor reintente más tarde.",
 					function(){app.mainMenu();},
-					'Mensaje del Sistema',
+					$("#header").html(),
 					'Aceptar'
 					);
 			}	
-			setTimeout(function(){$.mobile.loading('hide');}, 200);
+			setTimeout(function(){$("#placa").hide();$.mobile.loading('hide');}, 200);
 		};
 		serverCom.request();
 	}

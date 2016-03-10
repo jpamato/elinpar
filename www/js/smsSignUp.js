@@ -117,7 +117,7 @@ var smsSignUp = {
 	},
 
 	stopLoadding : function(){
-		setTimeout(function(){$.mobile.loading('hide');}, 200);
+		setTimeout(function(){$("#placa").hide();$.mobile.loading('hide');}, 200);
 	}
 
 };

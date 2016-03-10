@@ -49,8 +49,9 @@ var app = {
 	$( "#estacionaForm" ).submit(function( event ) {
 		var domain = $("#patenteInE").is(":visible") ? $( "input#patenteInE" ).val() : $( "select#selPatenteE" ).val();
 
-		setTimeout(function(){$.mobile.loading( "show", {
-			            text: "cargando...",
+		setTimeout(function(){$("#placa").show();
+				    $.mobile.loading( "show", {
+			            text: "Espere un momento por favor",
 			            textVisible: true,
 			            theme: "b",
 			            textonly: null,
@@ -66,8 +67,9 @@ var app = {
 	});
 
 	$( "#raspaForm" ).submit(function( event ) {
-		setTimeout(function(){$.mobile.loading( "show", {
-			            text: "cargando...",
+		setTimeout(function(){$("#placa").show();
+				    $.mobile.loading( "show", {
+			            text: "Espere un momento por favor",
 			            textVisible: true,
 			            theme: "b",
 			            textonly: null,
@@ -80,8 +82,9 @@ var app = {
 
 	$( "#cerrarForm" ).submit(function( event ) {
 		var domain = $("#patenteInC").is(":visible") ? $( "input#patenteInC" ).val() : $( "select#selPatenteC" ).val();
-		setTimeout(function(){$.mobile.loading( "show", {
-			    text: "cargando...",
+		setTimeout(function(){$("#placa").show();
+			    $.mobile.loading( "show", {
+			    text: "Espere un momento por favor",
 			    textVisible: true,
 			    theme: "b",
 			    textonly: null,
@@ -99,8 +102,9 @@ var app = {
 	});
 
 	$( "#mp_monto_Form" ).submit(function( event ) {
-		/*setTimeout(function(){$.mobile.loading( "show", {
-			            text: "cargando...",
+		/*setTimeout(function(){$("#placa").show();
+				    $.mobile.loading( "show", {
+			            text: "Espere un momento por favor",
 			            textVisible: true,
 			            theme: "b",
 			            textonly: null,
@@ -121,24 +125,37 @@ var app = {
 	});
 
 	$( ".required" ).focusout(function() {
-		if($(this).val()==""){
-			console.log("required: "+$(this).attr('id'));
-		}else{
-			console.log($(this).val());
+		
+		var id = $(this).attr('id');
+		var input = $(this).val();
+		var regex = merpago["validation"][id]["pattern"];
+
+		if(id!="cardholderName")input = input.replace(/ /g,'');
+
+   		var match = input.match(regex);
+		if(match != null && input === match[0]){
+			$(this).css("border","0px");
+			merpago["validation"][id]["done"]=true;
+			//console.log($(this).val());
+		}else{			
+			$(this).css("border", "1px solid red");			
+			merpago["validation"][id]["done"]=false;
+			//console.log("required: "+$(this).attr('id'));
 		}
 	});
 
-	$( "#mp_continuar" ).unbind('click').click( function(){		
-		$("#mp_datos_2").show();	
-		//console.log($("#cardNumber").val().slice(0,6));
-		var cn = $("#cardNumber").val();
-		merpago.setIssuers(cn.slice(0,6));
-		$("#cardLast4").html(cn.slice(cn.length-4,cn.length));
-		
-		showCuotas(mpJsonPrefs.default_installments);
+	$( "#mp_continuar" ).unbind('click').click( function(){
+		if(merpago.checkValidation(0)){
+			$("#mp_datos_2").show();	
+			//console.log($("#cardNumber").val().slice(0,6));
+			var cn = $("#cardNumber").val();
+			merpago.setIssuers(cn.slice(0,6));
+			$("#cardLast4").html(cn.slice(cn.length-4,cn.length));
+			
+			showCuotas(mpJsonPrefs.default_installments);
 
-		$("#mp_datos_1").hide();
-
+			$("#mp_datos_1").hide();			
+		}
 		event.preventDefault();
 		event.stopImmediatePropagation();
 	});
@@ -222,12 +239,13 @@ var app = {
 		$("#back").show();
 	});
 	$("#toSaldo").unbind('click').click( function(){
+		$("#saldo").hide();
 		$("#header").html("Consulta de Saldo");
-		$("#navlist").hide();
-		$("#saldo").show();
+		$("#navlist").hide();		
 		$("#back").show();
-		setTimeout(function(){$.mobile.loading( "show", {
-			            text: "cargando...",
+		setTimeout(function(){$("#placa").show();
+				    $.mobile.loading( "show", {
+			            text: "Espere un momento por favor",
 			            textVisible: true,
 			            theme: "b",
 			            textonly: null,
@@ -239,8 +257,9 @@ var app = {
 		$("#navlist").hide();
 		$("#ultimos").show();
 		$("#back").show();
-		setTimeout(function(){$.mobile.loading( "show", {
-			            text: "cargando...",
+		setTimeout(function(){$("#placa").show();
+				    $.mobile.loading( "show", {
+			            text: "Espere un momento por favor",
 			            textVisible: true,
 			            theme: "b",
 			            textonly: null,
@@ -318,13 +337,13 @@ var app = {
 	    	if(primerLogin){
 			login.init();
 		}else{			
+			$("#placa").show();
 			$.mobile.loading( "show", {
-					    text: "reconectando...",
+					    text: "Espere un momento por favor",
 					    textVisible: true,
 					    theme: "b",
 					    textonly: null,
 					    html: ""   });
-			$("#placa").show();
 			login.login();			
 		}
 	 setTimeout(app.autoLogin, 570000);

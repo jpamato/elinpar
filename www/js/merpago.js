@@ -109,10 +109,12 @@ var merpago = (function(){
 			Mercadopago.getIdentificationTypes(identificationHandler);
 
 			$("#pay").submit(function( event ) {
-			        var $form = $(this);
-          			Mercadopago.createToken($form, mpResponseHandler);
+				if(merpago.checkValidation(1)){
+			        	var $form = $(this);
+	          			Mercadopago.createToken($form, mpResponseHandler);
+				}
           			event.preventDefault();
-				event.stopImmediatePropagation();;
+				event.stopImmediatePropagation();
 			        return false;
 	 		});
 
@@ -189,7 +191,7 @@ var merpago = (function(){
 
 			function respuesta(status, response) {
 				//console.log(status);
-				console.log(JSON.stringify(response));
+				//console.log(JSON.stringify(response));
 				var buttons = '';
 				  $.each(response, function(i, v) {
 				//console.log(v.id);
@@ -344,6 +346,7 @@ var merpago = (function(){
 
 			function respuesta(status, response) {
 				if (status == 200) {
+					//console.log(JSON.stringify(response));			        
 					$("#mp_medios").hide();
 					$("#mp_datos").show();
 					// do somethings ex: show logo of the payment method
@@ -360,7 +363,9 @@ var merpago = (function(){
 						document.querySelector("input[name=paymentMethodId]").value = response[0].id;
 					}
 
-					payMethodInfo = response;
+					payMethodInfo = response;					
+					merpago.validation.cardNumber.pattern+="{"+(response[0].settings[0].card_number.length)+"}";
+					merpago.validation.securityCode.pattern+="{"+(response[0].settings[0].security_code.length)+"}";
 
 					$(".mp_datos_cardlogo").attr("src",response[0].thumbnail);
 					$("#mp_datos_conf_title").html("&nbsp;&nbsp;&nbsp;"+response[0].name+" terminada en "); 
@@ -415,6 +420,28 @@ var merpago = (function(){
 						$("#bancosDiv").hide();						
 					}
 
+		},
+
+		validation:{
+			cardNumber:{pattern:"[0-9]",step:0,done:false},
+			cardExpirationMonth:{pattern:"[0-9]{2}",step:0,done:false},
+			cardExpirationYear:{pattern:"[0-9]{4}",step:0,done:false},
+			cardholderName:{pattern:/^(?=\s*\S).*$/,step:0,done:false},
+			docNumber:{pattern:/^\d+$/,step:0,done:false},
+			securityCode:{pattern:"[0-9]",step:1,done:false}
+		},
+
+		checkValidation	: function(stepN){
+			var result = true;			
+			for (var key in merpago.validation) {			
+				if(merpago.validation[key]["step"]==stepN){
+					if(!merpago.validation[key]["done"]){
+						$("#"+key).css("border", "1px solid red");
+						result=false;
+					}
+				}
+			}
+			return result;
 		},
 
 		monto: ''

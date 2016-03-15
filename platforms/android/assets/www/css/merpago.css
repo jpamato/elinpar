@@ -20,12 +20,27 @@
 	vertical-align: middle;	
 }
 
+#medios_container{
+	height:440px;
+	overflow-y:scroll;
+}
+
 #mp_medios button{
 	text-align:left;
 	font-size:18px;
 	width:90%;
 	height:40px;
         margin-left: 5%;
+}
+
+#mp_medios_cliente button{
+	text-align:left;
+	font-size:18px;
+	width:90%;
+	height:40px;
+        margin-left: 5%;
+	border:0px;
+	background-color:#fff;
 }
 
 #mp_datos_submit .ui-btn{
@@ -62,8 +77,8 @@
 #cardExpirationYear{float: right;}
 
 #mp_cuotas{
-	margin-top:50px;
-	margin-bottom:50px;
+	//margin-top:50px;
+	//margin-bottom:50px;
 	font-size:14px;
 }
 

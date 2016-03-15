@@ -6,7 +6,8 @@ var nonce;
 var token;
 var plates = [];
 var mpJsonPrefs = {};
-var mpFormURL="";
+var mpCustomerURL="";
+var mpPayURL="";
 var mpItemId="";
 var serverCom = {
 
@@ -216,7 +217,8 @@ var serverCom = {
 
 					mpJsonPrefs = JSON.parse(config.find('JSONPreferences').text());
 
-					mpFormURL = config.find('BaseURI').text()+config.find('CustomerPath').text();
+					mpPayURL = config.find('BaseURI').text()+config.find('PaymentPath').text();
+					mpCustomerURL = config.find('BaseURI').text()+config.find('CustomerPath').text();
 					mpItemId = config.find('MPItem').find('Id').text();
 
 					/*navigator.notification.alert(
@@ -228,13 +230,13 @@ var serverCom = {
 
 					var amounts = [];
 					config.find('Amounts').find('int').each(function(){
-						amounts.push($(this).text());		
+						amounts.push(($(this).text()/100).toFixed(2));		
 					});
 
 					if(amounts.length>0){
 						var option = '';
 						for (var i=0;i<amounts.length;i++){
-					   		option += '<option value="'+ amounts[i] + '">$ ' + (amounts[i]/100).toFixed(2) + '</option>';
+					   		option += '<option value="'+ amounts[i] + '">$ ' + amounts[i] + '</option>';
 						}						
 						$("#montos_fijos").html(option);
 					}else{

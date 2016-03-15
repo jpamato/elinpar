@@ -151,6 +151,10 @@
 		
 		</div>
 
+		<div id="mp_medios_cliente">
+			
+		</div>
+
 		<div id="mp_datos">
 		<form action="" method="post" id="pay" name="pay" >
 			<fieldset id="mp_datos_1">
@@ -189,9 +193,13 @@
 				</div>
 			</fieldset>
 
+			<fieldset id="mp_datos_ciente">
+				<input type="hidden" id="cardId" data-checkout="cardId"/>
+			</fieldset>
+
 			<fieldset id="mp_datos_2">
 				<ul>
-					<div id="cardTitle"><img style="vertical-align:middle" class="mp_datos_cardlogo"><span id="mp_datos_conf_title"></span><span id="cardLast4"></span></div>					
+					<a id="cardTitle"><img style="vertical-align:middle" class="mp_datos_cardlogo"><span id="mp_datos_conf_title"></span><span id="cardLast4"></span></a>					
 					<hr>
 
 					<div id="cardDetail">
@@ -201,7 +209,8 @@
 						<select id="installments" name="installments"></select>
 						</div>
 
-						<a id="mp_cuotas"></a>
+						<!--<a id="mp_cuotas"></a>-->
+						<div id="mp_cuotas"></div>
 						
 						<div id="bancosDiv">
 						<select id="issuer" name="issuer"></select>

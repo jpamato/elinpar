@@ -38,6 +38,7 @@ var app = {
 	$("#raspadita").css("height",h+"px");
 	$("#saldo").css("height",h+"px");
 	$("#ultimos").css("height",h+"px");
+	$("#merpago").css("height",h+"px")
 
 	app.autoLogin();
 	app.menuInit();
@@ -116,13 +117,39 @@ var app = {
 		$("#amount").val(merpago.monto);
 
 		$("#mp_monto").hide();
-		$("#mp_medios").show();
-		var myselect = $("select#docType");
-		myselect[0].selectedIndex = 0;
-		myselect.selectmenu("refresh");
+		if(merpago.mpClientHaveCards()){
+			merpago.setDefaultMpCard();
+			showCuotas(mpJsonPrefs.default_installments);
+		}else{			
+			$("#mp_medios").show();
+			var myselect = $("select#docType");
+			myselect[0].selectedIndex = 0;
+			myselect.selectmenu("refresh");
+		}
 		event.preventDefault();
 		event.stopImmediatePropagation();		
 	});
+
+	$( "#cardTitle" ).unbind('click').click( function(){
+		if(merpago.mpClientHaveCards()){
+			$("#mp_datos").hide();
+			merpago.showClientCards();
+		}
+
+		event.preventDefault();
+		event.stopImmediatePropagation();
+	});
+
+	/*$( ".required" ).focusin(function() {
+		var id = $(this).attr('id');
+		//console.log(id);
+		navigator.notification.alert(
+				id,
+				null,
+				'Mensaje del Sistema',
+				'Aceptar'
+				);
+	});*/
 
 	$( ".required" ).focusout(function() {
 		
@@ -133,6 +160,12 @@ var app = {
 		if(id!="cardholderName")input = input.replace(/ /g,'');
 
    		var match = input.match(regex);
+		/*navigator.notification.alert(
+				input + "-" + regex + "-" + match,
+				null,
+				'Mensaje del Sistema',
+				'Aceptar'
+				);*/
 		if(match != null && input === match[0]){
 			$(this).css("border","0px");
 			merpago["validation"][id]["done"]=true;
@@ -161,7 +194,14 @@ var app = {
 	});
 
 	$( "#installments" ).change(function() {
-		showCuotas($(this).val());
+		//showCuotas($(this).val());
+		/*navigator.notification.alert(		
+				$(this)+" ## "+$(this).text(),
+				function(){app.mainMenu();},
+				'Cargar Crédito',
+				'Aceptar'
+				);*/
+		$("#mp_cuotas").html($(this).children("option").filter(":selected").text());
 	});
 	
 	function showCuotas(installments){
@@ -174,7 +214,8 @@ var app = {
 			costoTxt = "0,0"+merpago.monto;
 		}
 
-		var costoCuotaTxt = (parseFloat(merpago.monto)/(installments*100)).toFixed(2);
+		costoTxt = costoTxt.replace(".", ""); 	
+		var costoCuotaTxt = (parseFloat(merpago.monto)/(installments)).toFixed(2);
 		costoCuotaTxt = costoCuotaTxt.replace(".", ","); 	
 
 		var cuotasTxt = "";
@@ -218,12 +259,12 @@ var app = {
 		 }
 	});
 	
-	$("#mp_cuotas").unbind('click').click( function(){
+	/*$("#mp_cuotas").unbind('click').click( function(){
 		$("#cuotasDiv").show();
 		var myselect1 = $("select#installments");
 		myselect1[0].selectedIndex = 0;
 		myselect1.selectmenu("refresh");
-	});
+	});*/
 
 	app.mainMenu();
 
@@ -292,6 +333,7 @@ var app = {
 		$("#mp_monto").show();
 		//$("#mp_monto").hide();
 		$("#mp_medios").hide();
+		$("#mp_datos_ciente").hide();
 		$("#mp_datos").hide();
 		//$("#mp_datos").show();
 		$("#mp_datos_1").show();

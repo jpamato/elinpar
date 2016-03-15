@@ -1,19 +1,9 @@
 var merpago = (function(){
 
-	/*request : function(){
-	  $.ajax({
-	  url:serverCom.url,
-	  type: "POST",
-	  dataType: "xml",
-	  data: serverCom.soapRequest,
-	  complete: serverCom.onReqComplete,
-	  contentType: "text/xml; charset=\"utf-8\""
-	  });
-	  },*/
-
+	var mpClient = {};
 	var payMethodInfo;
 
-	var url = 'https://www.elinpark.com:52501/ElinparkMobile.asmx';
+	var payUrl = "https://www.elinpark.com:60090/api/Merchant";
 	var mpRequest = {
 	    campaign_id:null,
 	    card_token:"",
@@ -29,7 +19,7 @@ var merpago = (function(){
 
 	var request = function(){
 		$.ajax({
-		url:url,
+		url:payUrl,
 		type: "POST",
 		dataType: 'json',
 		data: JSON.stringify(mpRequest),
@@ -38,46 +28,39 @@ var merpago = (function(){
 		});
 	};
 	
-	var onReqComplete = function (xmlHttpRequest, status){			
+	var onReqComplete = function (response, status){			
 		navigator.notification.alert(
-				"onReqComplete: "+status,
+				//"onReqComplete: "+status+" "+ JSON.stringify(xmlHttpRequest),
+				//response["responseText"],
+				JSON.parse(response.responseText).message,
 				function(){app.mainMenu();},
-				'Mensaje del Sistema',
+				'Cargar Crédito',
 				'Aceptar'
 				);
 	};
 
 	
-	var custData = {
-		email:""
-	};
+	var custData = {};
+	
+	var custURL = "https://www.elinpark.com:60090/api/Merchant";
 
-	//var custURL = "https://api.mercadopago.com/v1/customers";
-	var custURL = "https://api.mercadopago.com/v1//merchant_orders";
-
-	var onCustReqComplete = function (status, response){			
+	var onCustReqComplete = function (data){
+		mpClient = data;
 		/*navigator.notification.alert(
-				status,
+				data,
 				null,
 				'Mensaje del Sistema',
 				'Aceptar'
 				);*/
-
-		navigator.notification.alert(
-				"responseCustomer: "+JSON.stringify(response),
-				null,
-				'Mensaje del Sistema',
-				'Aceptar'
-				);
 	};
 
 	var customerReq = function(){
 		$.ajax({
 		url:custURL,
-		method: "POST",
-		timeout:1e4,
+		type: "GET",
 		data: custData,
-		complete: onCustReqComplete
+		success: onCustReqComplete,
+		contentType : 'application/json'		
 		});
 	};
 
@@ -91,18 +74,12 @@ var merpago = (function(){
 			//Mercadopago.setPublishableKey("TEST-ef97d076-fc1d-4747-a987-fae632e759a6");
 
 			Mercadopago.getAllPaymentMethods(respuesta);
-			//
-			//merpago.setPayMethod("visa");
-			//
-			custURL = custURL+"/"+localStorage.getItem("user")+ "-" +parkingID_Tigre+"?public_key="+key+"notification_url="+mpFormURL;
-			custData.email = mpFormURL;
+			
+			merpago.setPayMethod("visa");
 
-				navigator.notification.alert(
-				custURL,
-				null,
-				'Mensaje del Sistema',
-				'Aceptar'
-				);
+			payUrl = mpPayURL;
+			custURL = mpCustomerURL;
+			custData = {merchant_access_token:localStorage.getItem("user")+ "-" +parkingID_Tigre};
 
 			customerReq();
 
@@ -111,7 +88,7 @@ var merpago = (function(){
 			$("#pay").submit(function( event ) {
 				if(merpago.checkValidation(1)){
 			        	var $form = $(this);
-	          			Mercadopago.createToken($form, mpResponseHandler);
+					Mercadopago.createToken($form, mpCTokenResponse);
 				}
           			event.preventDefault();
 				event.stopImmediatePropagation();
@@ -120,21 +97,20 @@ var merpago = (function(){
 
 			mpRequest.card_token = 1;
       			
-			var mpResponseHandler = function(status, response) {
+			var mpCTokenResponse = function(status, response) {
         			var $form = $('#pay');
-				navigator.notification.alert(
+				/*navigator.notification.alert(
 							"responseToken: "+JSON.stringify(response),
 							null,
 							'Mensaje del Sistema',
 							'Aceptar'
-				);
-
-				navigator.notification.alert(
+				);*/
+				/*navigator.notification.alert(
 							"statusToken: "+status,
 							null,
 							'Mensaje del Sistema',
 							'Aceptar'
-				);
+				);*/
 
         			if (response.error) {
 					navigator.notification.alert(
@@ -162,18 +138,16 @@ var merpago = (function(){
 					mpRequest.card_token = response.id;
 					mpRequest.installments = $( "#installments" ).val(); 
 					mpRequest.item.id = mpItemId;
-					mpRequest.item.unit_price = merpago.monto/100;
+					mpRequest.item.unit_price = merpago.monto;
 					mpRequest.merchant_access_token = localStorage.getItem("user")+ "-" +parkingID_Tigre; 
 					mpRequest.payment_method_id = payMethodInfo[0].id;
 
-					url = mpFormURL;
-
-					navigator.notification.alert(
-								"Req Data 2 Server: "+mpRequest,
+					/*navigator.notification.alert(
+								"Req Data 2 Server: "+JSON.stringify(mpRequest),
 								null,
 								'Mensaje del Sistema',
 								'Aceptar'
-							);
+							);*/
 
 					request();
 			        }
@@ -192,7 +166,7 @@ var merpago = (function(){
 			function respuesta(status, response) {
 				//console.log(status);
 				//console.log(JSON.stringify(response));
-				var buttons = '';
+				var buttons = '<div id="medios_container">';
 				  $.each(response, function(i, v) {
 				//console.log(v.id);
 				//console.log(v.thumbnail);
@@ -211,7 +185,7 @@ var merpago = (function(){
 				return;					
 				});
 
-
+				buttons+="</div>"
 				$("#mp_medios").html(buttons);
 
 
@@ -221,112 +195,6 @@ var merpago = (function(){
 
 			}
 			},
-
-			/*	  var mpResponseHandler = function(status, response) {
-				  var $form = $('#form-pagar-mp');
-				  if (response.error) {
-				  alert("ocurri&oacute; un error: "+JSON.stringify(response));
-				  } else {
-				  var card_token_id = response.id;
-				  $form.append($('<input type="hidden" id="card_token_id" name="card_token_id"/>').val(card_token_id));
-				  alert("card_token_id: "+card_token_id);
-				  $form.get(0).submit();
-				  }   
-				  };
-
-				  $("#form-pagar-mp").submit(function( event ) {
-				  var $form = $(this);
-				  Mercadopago.createToken($form, mpResponseHandler);
-				  event.preventDefault();
-				  event.stopImmediatePropagation();
-				  return false;
-				  });
-
-				  doSubmit = false;
-				  addEvent(document.querySelector('input[data-checkout="cardNumber"]'), 'keyup', guessingPaymentMethod);
-				  addEvent(document.querySelector('input[data-checkout="cardNumber"]'), 'change', guessingPaymentMethod);
-				  addEvent(document.querySelector('#pay'),'submit',doPay);
-				  function doPay(event){
-				  event.preventDefault();
-				  if(!doSubmit){
-				  var $form = document.querySelector('#pay');
-
-				  Mercadopago.createToken($form, sdkResponseHandler); // The function "sdkResponseHandler" is defined below
-
-				  return false;
-				  }
-				  };
-
-				  function sdkResponseHandler(status, response) {
-				  if (status != 200 && status != 201) {
-				  console.log(status);
-				  }else{
-				  console.log("else");
-				  var form = document.querySelector('#pay');
-
-				  var card = document.createElement('input');
-				  card.setAttribute('name',"token");
-				  card.setAttribute('type',"hidden");
-				  card.setAttribute('value',response.id);
-				  form.appendChild(card);
-				  doSubmit=true;
-				  form.submit();
-				  }
-				  };
-
-				  function addEvent(el, eventName, handler){
-				  console.log("add event");
-				  if (el.addEventListener) {
-				  el.addEventListener(eventName, handler);
-				  } else {
-				  el.attachEvent('on' + eventName, function(){
-				  handler.call(el);
-				  });
-				  }
-				  };
-
-				  function getBin() {
-				  var ccNumber = document.querySelector('input[data-checkout="cardNumber"]');
-				  return ccNumber.value.replace(/[ .-]/g, '').slice(0, 6);
-				  };
-
-				  function guessingPaymentMethod(event) {
-				  var bin = getBin();
-
-			if (event.type == "keyup") {
-				if (bin.length >= 6) {
-					Mercadopago.getPaymentMethod({
-						"bin": bin
-					}, setPaymentMethodInfo);
-				}
-			} else {
-				setTimeout(function() {
-					if (bin.length >= 6) {
-						Mercadopago.getPaymentMethod({
-							"bin": bin
-						}, setPaymentMethodInfo);
-					}
-				}, 100);
-			}
-		};
-
-		       function setPaymentMethodInfo(status, response) {
-			       if (status == 200) {
-				       // do somethings ex: show logo of the payment method
-				       var form = document.querySelector('#pay');
-
-				       if (document.querySelector("input[name=paymentMethodId]") == null) {
-					       var paymentMethod = document.createElement('input');
-					       paymentMethod.setAttribute('name', "paymentMethodId");
-					       paymentMethod.setAttribute('type', "hidden");
-					       paymentMethod.setAttribute('value', response[0].id);
-
-					       form.appendChild(paymentMethod);
-				       } else {
-					       document.querySelector("input[name=paymentMethodId]").value = response[0].id;
-				       }
-			       }
-		       };*/
 
 
 		setPayMethod: function(id){
@@ -349,6 +217,8 @@ var merpago = (function(){
 					//console.log(JSON.stringify(response));			        
 					$("#mp_medios").hide();
 					$("#mp_datos").show();
+					$("#mp_datos_1").show();
+					$("#mp_datos_2").hide();
 					// do somethings ex: show logo of the payment method
 					var form = document.querySelector('#pay');
 
@@ -364,8 +234,8 @@ var merpago = (function(){
 					}
 
 					payMethodInfo = response;					
-					merpago.validation.cardNumber.pattern+="{"+(response[0].settings[0].card_number.length)+"}";
-					merpago.validation.securityCode.pattern+="{"+(response[0].settings[0].security_code.length)+"}";
+					merpago.validation.cardNumber.pattern="[0-9]{"+(response[0].settings[0].card_number.length)+"}";
+					merpago.validation.securityCode.pattern="[0-9]{"+(response[0].settings[0].security_code.length)+"}";
 
 					$(".mp_datos_cardlogo").attr("src",response[0].thumbnail);
 					$("#mp_datos_conf_title").html("&nbsp;&nbsp;&nbsp;"+response[0].name+" terminada en "); 
@@ -444,9 +314,68 @@ var merpago = (function(){
 			return result;
 		},
 
+		mpClientHaveCards : function(){
+			if(mpClient.cards.length>0){
+							
+				return true;	
+			}else{
+				return false;
+			}
+		},
+
+		setDefaultMpCard : function(){
+			merpago.setClientCard(mpClient.default_card);
+		},
+
+		setClientCard : function(id){
+			var card = $.grep(mpClient.cards, function(e){ return e.id == id ;})[0];				
+			merpago.setPayMethod(card.payment_method.id);				
+			$("#cardId").val(id);
+			$("#mp_datos_2").show();	
+			$("#cardLast4").html(card.last_four_digits);
+			merpago.setIssuers(card.first_six_digits);
+			$("#mp_datos_1").hide();		
+		},
+
+		showClientCards : function(){
+			$("#mp_medios_cliente").show();	
+			var buttons = '';
+			
+			$.each(mpClient.cards, function(i, v) {
+				buttons+='<button class="clientCardButton" id=clientCardButton_'+v.id+' value='+v.id+'><img style="vertical-align:middle" class="mp_datos_cardlogo" src='+v.payment_method.thumbnail+'><span class="mp_datos_conf_title">&nbsp;&nbsp;&nbsp;'+v.payment_method.name+' terminada en </span><span class="cardLast4">'+v.last_four_digits+'</span></button><br>';
+				
+				//$(".mp_datos_cardlogo").attr("src",response[0].thumbnail);
+				//$("#mp_datos_conf_title").html("&nbsp;&nbsp;&nbsp;"+response[0].name+" terminada en "); 
+			});
+
+			buttons+='<button id=otherClientCard><span class="mp_datos_conf_title">Otros medios de pago...</span></button><br>';
+			
+			$("#mp_medios_cliente").html(buttons);
+
+			$( ".clientCardButton" ).unbind('click').click( function(){
+				var v = $(this).val();
+				
+				merpago.setClientCard(v);				
+				$("#mp_medios_cliente").hide();
+
+				event.preventDefault();
+				event.stopImmediatePropagation();
+			});
+
+			$( "#otherClientCard" ).unbind('click').click( function(){
+				
+				$("#mp_medios").show();
+				var myselect = $("select#docType");
+				myselect[0].selectedIndex = 0;
+				myselect.selectmenu("refresh");	
+				$("#mp_medios_cliente").hide();
+				event.preventDefault();
+				event.stopImmediatePropagation();
+			});
+		},
+
 		monto: ''
 	};
-
 
 	function setInstallmentInfo(status, response) {
 

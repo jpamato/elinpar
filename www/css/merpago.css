@@ -6,6 +6,16 @@
 	font-size:14px;
 }
 
+#placaMP{
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:1000;
+	width:100%;
+	height:100%;
+	background-color:#fff;
+}
+
 #merpago hr{
 	width:150%;
 	margin-left:-25%;
@@ -95,4 +105,16 @@
 #submitMP{
 	width:92%;
 	left:4%;
+}
+
+#mp_check{
+	text-align:center;
+	font-size:40px;	
+}
+#mp_exito p{
+	margin:1%;
+}
+#mp_check_text{
+	text-align:center;
+	font-size:24px;
 }

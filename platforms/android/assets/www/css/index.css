@@ -60,14 +60,16 @@ body {
 	background-color:rgba(0,0,0,0.8);
 }
 #header{
-	font-size: 14px;
+	//font-size: 14px;
+	font-size: 18px;
 	color: #ffffff;
-	padding: 0.2em;
-	background: #777777; /* For browsers that do not support gradients */
-	background: -webkit-linear-gradient(#777777, #aaaaaa, #777777); /* For Safari 5.1 to 6.0 */
-	background: -o-linear-gradient(#777777, #aaaaaa, #777777); /* For Opera 11.1 to 12.0 */
-	background: -moz-linear-gradient(#777777, #aaaaaa, #777777); /* For Firefox 3.6 to 15 */
-	background: linear-gradient(#777777, #aaaaaa, #777777); /* Standard syntax */
+	//padding: 0.2em;
+	padding: 0.8em;
+	background: #009f83; /* For browsers that do not support gradients */
+	//background: -webkit-linear-gradient(#009f83, #aaaaaa, #009f83); /* For Safari 5.1 to 6.0 */
+	//background: -o-linear-gradient(#009f83, #aaaaaa, #009f83); /* For Opera 11.1 to 12.0 */
+	//background: -moz-linear-gradient(#009f83, #aaaaaa, #009f83); /* For Firefox 3.6 to 15 */
+	//background: linear-gradient(#009f83, #aaaaaa, #009f83); /* Standard syntax */
 }
 #back{
 	position:fixed;

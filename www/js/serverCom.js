@@ -252,12 +252,12 @@ var serverCom = {
 					}
 					merpago.init(key);
 					
-					navigator.notification.alert(
+					/*navigator.notification.alert(
 							config,
 							null,
 							'Mensaje del Sistema',
 							'Aceptar'
-							);
+							);*/
 
 				}else{
 					$("#toMP").hide();

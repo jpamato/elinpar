@@ -27,7 +27,7 @@
     </head>
     <body>
     <div id="borderTop">&nbsp;</div>
-    <div id="header">Estacionamiento</div>
+    <div id="header">Menu Principal</div>
     <div id="placa">&nbsp;</div>
         <div id="navcontainer">
 		<ul id="navlist">
@@ -137,7 +137,7 @@
 	</div>
 
 	<div id="merpago">
-
+		<div id="placaMP">&nbsp;</div>
 		<div id="mp_monto">			
 			<form id="mp_monto_Form">
 				<label for="montos_fijos">Monto a recargar:</label>
@@ -160,13 +160,13 @@
 			<fieldset id="mp_datos_1">
 				<ul>
 					<label for="cardNumber">Número de tarjeta    <img style="vertical-align:middle" class="mp_datos_cardlogo"></label>
-					<input type="text" id="cardNumber" class='required' data-checkout="cardNumber" placeholder="4509 9535 6623 3704" />			
+					<input type="text" id="cardNumber" class='required' data-checkout="cardNumber" />			
 					
 					<label for="cardExpirationMonth">Válida hasta:</label>
 					<div id="mp_datos_exp">
 						<fieldset class="ui-grid-c">
-    							<div class="ui-block-a"><input type="text" pattern="[0-9]{2}" id="cardExpirationMonth" class='required' data-checkout="cardExpirationMonth" placeholder="12" /></div>
-							<div class="ui-block-b"><input type="text" pattern="[0-9]{4}" id="cardExpirationYear" class='required' data-checkout="cardExpirationYear" placeholder="2015"/></div>
+    							<div class="ui-block-a"><input type="text" pattern="[0-9]{2}" id="cardExpirationMonth" class='required' data-checkout="cardExpirationMonth" placeholder="MM" /></div>
+							<div class="ui-block-b"><input type="text" pattern="[0-9]{4}" id="cardExpirationYear" class='required' data-checkout="cardExpirationYear" placeholder="AAAA" /></div>
 							<div class="ui-block-c">&nbsp;</div>
 							<div class="ui-block-d">&nbsp;</div>
 						</fieldset>
@@ -174,7 +174,7 @@
 					</div>
 					
 					<label for="cardholderName">Nombre y apellido impreso en la tarjeta:</label>
-					<input type="text" id="cardholderName" class='required' data-checkout="cardholderName" placeholder="APRO" />
+					<input type="text" id="cardholderName" class='required' data-checkout="cardholderName" />
 					
 					<fieldset class="ui-grid-a">
 						<div class="ui-block-a">
@@ -184,7 +184,7 @@
 				
 						<div class="ui-block-b">
 							<label for="docNumber">Documento:</label>
-							<input type="text" id="docNumber" class='required' data-checkout="docNumber" placeholder="12345678" />		
+							<input type="text" id="docNumber" class='required' data-checkout="docNumber" />		
 						</div>
 					</fieldset>
 				</ul>
@@ -209,8 +209,7 @@
 						<select id="installments" name="installments"></select>
 						</div>
 
-						<!--<a id="mp_cuotas"></a>-->
-						<div id="mp_cuotas"></div>
+						<a id="mp_cuotas"></a>
 						
 						<div id="bancosDiv">
 						<select id="issuer" name="issuer"></select>
@@ -219,7 +218,7 @@
 					</div>
 					<hr>
 					<label for="securityCode">Código de seguridad</label>
-					<input type="text" id="securityCode" class='required' data-checkout="securityCode" placeholder="123" />					
+					<input type="password" id="securityCode" class='required' data-checkout="securityCode"/>					
 				</ul>
 				<div id="mp_datos_submit">
 					<input type="submit" id="paySubmit" value="Confirmar" />

@@ -4,7 +4,7 @@ var app = {
     init: function() {
         this.bindEvents();
 
-	app.menuInit();
+	/*app.menuInit();
 	$("#placa").hide();
 	merpago.init("TEST-ef97d076-fc1d-4747-a987-fae632e759a6");
 	//login.init();*/
@@ -30,6 +30,7 @@ var app = {
     onDeviceReady: function() {
 	//$("#header").html("init");
 	var h = $(window).height()-$("#header").height()-2*$("#borderTop").height();
+	var w = $(window).width();
 
 	$("#placa").css("height",h+"px");
 	$("#navlist").css("height",h+"px");
@@ -39,6 +40,9 @@ var app = {
 	$("#saldo").css("height",h+"px");
 	$("#ultimos").css("height",h+"px");
 	$("#merpago").css("height",h+"px");
+	
+	var w = $("#estacionar").width();
+	$("#back").css("width",w+"px");
 
 	app.autoLogin();
 	app.menuInit();
@@ -46,7 +50,7 @@ var app = {
     },
 
     menuInit: function(){
-	//$("#toMP").hide();
+	$("#toMP").hide();
 	$( "#estacionaForm" ).submit(function( event ) {
 		var domain = $("#patenteInE").is(":visible") ? $( "input#patenteInE" ).val() : $( "select#selPatenteE" ).val();
 
@@ -283,6 +287,7 @@ var app = {
 		$("#header").html("Últimos Estacionamientos");
 		$("#navlist").hide();
 		$("#ultimos").show();
+		$("#placaUlt").show();
 		$("#back").show();
 		setTimeout(function(){$("#placa").show();
 				    $.mobile.loading( "show", {
@@ -313,7 +318,7 @@ var app = {
 
 
 	$("#toMP").unbind('click').click( function(){
-		/*$('#pay')[0].reset();
+		$('#pay')[0].reset();
 		$("#mp_cuotas").show();
 		$("#header").html("Recarga de Saldo");
 		$("#navlist").hide();
@@ -331,9 +336,9 @@ var app = {
 		$("#placaMP").hide();
 		var myselect = $("select#montos_fijos");
 		myselect[0].selectedIndex = 0;
-		myselect.selectmenu("refresh");*/
+		myselect.selectmenu("refresh");
 
-		$("#header").html("¡Felicitaciones!");
+		/*$("#header").html("¡Felicitaciones!");
 		$("#navlist").hide();
 		$("#merpago").show();		
 		$("#mp_monto").hide();
@@ -343,8 +348,7 @@ var app = {
 		$("#mp_datos_1").hide();
 		$("#mp_datos_2").hide();
 		$("#mp_exito").show();
-		$("#placaMP").hide();
-		$("#back").show()
+		$("#placaMP").hide();*/
 	});
 	
 	/*$("#reset").click( function(){

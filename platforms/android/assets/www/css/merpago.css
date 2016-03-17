@@ -10,7 +10,7 @@
 	position:absolute;
 	top:0px;
 	left:0px;
-	z-index:1000;
+	z-index:500;
 	width:100%;
 	height:100%;
 	background-color:#fff;
@@ -26,12 +26,22 @@
 	background-color:#ccc;
 }
 
+#merpago .hr_small{
+	width:150%;
+	margin-left:-25%;
+	margin-top:8px;
+	margin-bottom:8px;
+	font-size:8px;
+	height:2px;
+	background-color:#ccc;
+}
+
 #mp_medios{
 	vertical-align: middle;	
 }
 
 #medios_container{
-	height:440px;
+	height:400px;
 	overflow-y:scroll;
 }
 
@@ -58,12 +68,12 @@
 	margin-left:11%;
 }
 
-#mp_medios .left{	
+#merpago .left{	
 	float: left;
 	margin-right: 20px;
 }
 
-#mp_medios .right{	
+#merpago .right{	
 }
 #mp_datos{
 	text-align:left;
@@ -105,4 +115,20 @@
 #submitMP{
 	width:92%;
 	left:4%;
+}
+
+#mp_check{
+	text-align:center;
+	font-size:40px;	
+}
+#mp_exito p{
+	margin:1%;
+}
+#mp_check_text{
+	text-align:center;
+	font-size:24px;
+	margin-bottom:20px;
+}
+#mp_check_medio{
+	vertical-align: middle;	
 }

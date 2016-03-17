@@ -37,32 +37,42 @@ var merpago = (function(){
 		326:"Revisa la fecha."
 	};
 
-	var request = function(){
+	var payRequest = function(){
 		$.ajax({
 		url:payUrl,
 		type: "POST",
 		dataType: 'json',
 		data: JSON.stringify(mpRequest),
-		complete: onReqComplete,
+		complete: onPayComplete,
 		contentType : 'application/json'
 		});
 	};
 	
-	var onReqComplete = function (response, status){			
+	var onPayComplete = function (response, status){			
 		if(status=="success"){
 
-			if(JSON.parse(response.responseText).status==="approved")
-				navigator.notification.alert(
+			if(JSON.parse(response.responseText).status==="approved"){
+				/*navigator.notification.alert(
 				//"onReqComplete: "+status+" "+ JSON.stringify(xmlHttpRequest),
-				//"status: "+status+"  -  "+response["responseText"],
+				"status: "+status+"  -  "+response["responseText"],
 				//JSON.parse(response.responseText).status,
 				//JSON.parse(response.responseText).message,
-				"¡Listo, se acreditó tu pago! En tu resumen verás el cargo de $"+JSON.parse(response.responseText).transaction_details.installment_amount+" como "+JSON.parse(response.responseText).statement_descriptor,
+				//"¡Listo, se acreditó tu pago! En tu resumen verás el cargo de $"+JSON.parse(response.responseText).transaction_details.installment_amount+" como "+JSON.parse(response.responseText).statement_descriptor,
 				function(){app.mainMenu();},
 				'Cargar Crédito',
 				'Aceptar'
-				);
-			else if(JSON.parse(response.responseText).status==="in_process")
+				);*/
+
+				$("#header").html("¡Felicitaciones!");
+				$("#mp_datos_2").hide();
+				$("#mp_exito").show();
+				$("#mp_check_monto").html(JSON.parse(response.responseText).transaction_amount);
+				$("#mp_check_card").html('<div class=left><img src='+payMethodInfo[0].thumbnail+'></div><span class=right>'+payMethodInfo[0].name+'</span>');
+				$("#mp_check_opN").html(parseInt(JSON.parse(response.responseText).id));
+				$("#mp_check_fechaIn").html(getMPTimeFormat(JSON.parse(response.responseText).date_approved));
+
+			
+			}else if(JSON.parse(response.responseText).status==="in_process")
 				if(JSON.parse(response.responseText).status_detail==="pending_contingency")
 					navigator.notification.alert(			
 					"Estamos procesando el pago. En menos de una hora te enviaremos por e-mail el resultado.",
@@ -213,7 +223,7 @@ var merpago = (function(){
 			Mercadopago.setPublishableKey(key);
 			//Mercadopago.setPublishableKey("TEST-ef97d076-fc1d-4747-a987-fae632e759a6");
 
-			Mercadopago.getAllPaymentMethods(respuesta);
+			Mercadopago.getAllPaymentMethods(allPaymentResponse);
 			
 			//merpago.setPayMethod("visa");
 
@@ -236,6 +246,8 @@ var merpago = (function(){
 	 		});
 
 			mpRequest.card_token = 1;
+			
+			$("#toMP").show();
       			
 			var mpCTokenResponse = function(status, response) {
         			var $form = $('#pay');
@@ -282,7 +294,7 @@ var merpago = (function(){
 								'Aceptar'
 							);*/
 
-					request();
+					payRequest();
 			        }else{
 					var txt = "";
 					/*$.each(response.cause, function(i, v) {
@@ -299,9 +311,6 @@ var merpago = (function(){
 						'Aceptar'
 					);
 				}
-		
-
-				$("#toMP").show();
 			}
 
 			function identificationHandler(status, response) {
@@ -314,7 +323,7 @@ var merpago = (function(){
 				$("#docType").html(option);			
 			}
 
-			function respuesta(status, response) {
+			function allPaymentResponse(status, response) {
 				//console.log(status);
 				//console.log(JSON.stringify(response));
 				var buttons = '<div id="medios_container">';
@@ -360,7 +369,7 @@ var merpago = (function(){
 					html: ""   });}, 20);
 
 			Mercadopago.getPaymentMethod({"payment_method_id": id
-			}, respuesta);
+			}, payMethodResponse);
 
 			     /*function respuesta(status, response) {
 			     //console.log(status);				
@@ -373,7 +382,7 @@ var merpago = (function(){
 				     );
 			     }*/
 
-			function respuesta(status, response) {
+			function payMethodResponse(status, response) {
 				if (status == 200) {
 					//console.log(JSON.stringify(response));
 				
@@ -677,5 +686,27 @@ var merpago = (function(){
 				handler.call(el);
 			});
 		}
+	};
+
+	function getMPTimeFormat(source){
+		var year = source.substring(0, 4);
+		var month = source.substring(5, 7);
+		var day = source.substring(8, 10);
+		var sourceHour = source.substring(11, 13);
+		var sourceMin = source.substring(14, 16);
+
+		var sourceTZmin = parseInt(source.substring(source.length-2, source.length));
+		var sourceTZhour = parseInt(source.substring(source.length-6, source.length-3));
+		var sourceTZmin = sourceTZhour<0?(sourceTZmin*-1)+(sourceTZhour*60):sourceTZmin+(sourceTZhour*60);
+
+		var myDate = new Date();
+		var dif = sourceTZmin + myDate.getTimezoneOffset();
+		var difHour = Math.floor(dif/60);
+		var difMin = dif-difHour;
+
+		var destHour = sourceHour-difHour;
+		var destMin = (sourceMin-difMin)%60;
+
+		return day+"/"+month+"/"+year+" - "+destHour+":"+destMin;
 	};
 })();

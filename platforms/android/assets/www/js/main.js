@@ -30,6 +30,7 @@ var app = {
     onDeviceReady: function() {
 	//$("#header").html("init");
 	var h = $(window).height()-$("#header").height()-2*$("#borderTop").height();
+	var w = $(window).width();
 
 	$("#placa").css("height",h+"px");
 	$("#navlist").css("height",h+"px");
@@ -39,6 +40,9 @@ var app = {
 	$("#saldo").css("height",h+"px");
 	$("#ultimos").css("height",h+"px");
 	$("#merpago").css("height",h+"px");
+	
+	var w = $("#estacionar").width();
+	$("#back").css("width",w+"px");
 
 	app.autoLogin();
 	app.menuInit();
@@ -283,6 +287,7 @@ var app = {
 		$("#header").html("Últimos Estacionamientos");
 		$("#navlist").hide();
 		$("#ultimos").show();
+		$("#placaUlt").show();
 		$("#back").show();
 		setTimeout(function(){$("#placa").show();
 				    $.mobile.loading( "show", {
@@ -326,12 +331,24 @@ var app = {
 		//$("#mp_datos").show();
 		$("#mp_datos_1").show();
 		$("#mp_datos_2").hide();
-		$("#mp_resultado").hide();
+		$("#mp_exito").hide();
 		$("#back").show();
 		$("#placaMP").hide();
 		var myselect = $("select#montos_fijos");
 		myselect[0].selectedIndex = 0;
 		myselect.selectmenu("refresh");
+
+		/*$("#header").html("¡Felicitaciones!");
+		$("#navlist").hide();
+		$("#merpago").show();		
+		$("#mp_monto").hide();
+		$("#mp_medios").hide();
+		$("#mp_datos_ciente").hide();
+		$("#mp_datos").hide();		
+		$("#mp_datos_1").hide();
+		$("#mp_datos_2").hide();
+		$("#mp_exito").show();
+		$("#placaMP").hide();*/
 	});
 	
 	/*$("#reset").click( function(){

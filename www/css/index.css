@@ -76,7 +76,8 @@ body {
 	//bottom:50px;
 	top:500px;
 	width:92%;
-	left:4%;
+	margin-left:10px;
+	//left:4%;
 }
 
 /* Portrait layout (default) */

@@ -192,7 +192,7 @@ var serverCom = {
 	},
 
 	GetMPConfig : function(){
-		$("#toMP").hide();
+		//$("#toMP").hide();
 		//var user = CryptoJS.AES.decrypt(localStorage.getItem("user"), device.uuid);
 		var user = localStorage.getItem("user");
 		serverCom.soapRequest = soapBeg+
@@ -210,8 +210,7 @@ var serverCom = {
 			if(status=="success"){				
 				var config = $(xmlHttpRequest.responseXML).find('GetMPRechargeConfigurationResponse').find('MPConfiguration');
 
-				if(config.length>0){			
-					$("#toMP").show();					
+				if(config.length>0){									
 
 					var key = config.find('PublicKey').text();
 
@@ -260,13 +259,7 @@ var serverCom = {
 							);*/
 
 				}else{
-					$("#toMP").hide();
-					navigator.notification.alert(
-							"No hay MP",
-							null,
-							'Mensaje del Sistema',
-							'Aceptar'
-							);
+					$("#toMP").hide();					
 				}
 			}else{
 				navigator.notification.alert(
@@ -544,7 +537,7 @@ var serverCom = {
 					'Aceptar'
 					);
 			}	
-			setTimeout(function(){$("#placa").hide();$.mobile.loading('hide');}, 200);
+			setTimeout(function(){$("#placa").hide();$("#placaUlt").hide();$.mobile.loading('hide');}, 200);
 		};
 		serverCom.request();
 	},

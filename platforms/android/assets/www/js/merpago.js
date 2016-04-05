@@ -238,6 +238,13 @@ var merpago = (function(){
 
 			$("#pay").submit(function( event ) {
 				if(merpago.checkValidation(1)){
+					$.mobile.loading( "show", {
+						text: "Espere un momento por favor",
+						textVisible: true,
+						theme: "b",
+						textonly: null,
+					html: ""   });
+					$("#placaMP").show();
 			        	var $form = $(this);
 					Mercadopago.createToken($form, mpCTokenResponse);
 				}
@@ -295,13 +302,6 @@ var merpago = (function(){
 								'Aceptar'
 							);*/
 
-					$.mobile.loading( "show", {
-						text: "Espere un momento por favor",
-						textVisible: true,
-						theme: "b",
-						textonly: null,
-					html: ""   });
-					$("#placaMP").show();
 					payRequest();
 			        }else{
 					var txt = "";
@@ -314,7 +314,7 @@ var merpago = (function(){
 						txt="Revisa los datos.";
 					navigator.notification.alert(				
 						txt,
-						function(){app.mainMenu();},
+						function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 						'Cargar Crédito',
 						'Aceptar'
 					);

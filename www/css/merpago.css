@@ -66,12 +66,15 @@
 	background-color:#eee;
 }
 
-/*#cardTitle .ui-btn{
-	border: hidden 0px white;
-	background-color:white;
-	padding:0px;
-	text-align:left;
-}*/
+#cardTitle.ui-btn.ui-shadow.ui-corner-all{
+	border: none 0px white;
+   	background-color: white;
+    	padding: 2px 2px 2px 2px;
+    	text-align: left;
+   	box-shadow: 0 0px 0px white;
+	font-weight: 100;
+	font-size:14px;
+}
 
 #clientCardButton{
 	font-size:14px;	
@@ -119,9 +122,13 @@
 #cardExpirationMonth{float: left;}
 #cardExpirationYear{float: right;}
 
-#mp_cuotas{
-	//margin-top:50px;
-	//margin-bottom:50px;
+#mp_cuotas.ui-btn.ui-shadow.ui-corner-all{
+	border: none 0px white;
+   	background-color: white;
+    	padding: 2px 2px 2px 2px;
+    	text-align: left;
+   	box-shadow: 0 0px 0px white;
+	font-weight: 100;
 	font-size:14px;
 }
 

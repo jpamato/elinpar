@@ -161,13 +161,13 @@
 			<fieldset id="mp_datos_1">
 				<ul>
 					<label for="cardNumber">Número de tarjeta    <img style="vertical-align:middle" class="mp_datos_cardlogo"></label>
-					<input type="number" id="cardNumber" class='required' data-checkout="cardNumber" />			
+					<input type="number" pattern="[0-9]*" id="cardNumber" class='required' data-checkout="cardNumber" />			
 					
 					<label for="cardExpirationMonth">Válida hasta:</label>
 					<div id="mp_datos_exp">
 						<fieldset class="ui-grid-c">
-    							<div class="ui-block-a"><input type="number" pattern="[0-9]{2}" id="cardExpirationMonth" class='required' data-checkout="cardExpirationMonth" placeholder="MM" /></div>
-							<div class="ui-block-b"><input type="number" pattern="[0-9]{4}" id="cardExpirationYear" class='required' data-checkout="cardExpirationYear" placeholder="AAAA" /></div>
+    							<div class="ui-block-a"><input type="number" pattern="[0-9]*" id="cardExpirationMonth" class='required' data-checkout="cardExpirationMonth" placeholder="MM" /></div>
+							<div class="ui-block-b"><input type="number" pattern="[0-9]*" id="cardExpirationYear" class='required' data-checkout="cardExpirationYear" placeholder="AAAA" /></div>
 							<div class="ui-block-c">&nbsp;</div>
 							<div class="ui-block-d">&nbsp;</div>
 						</fieldset>
@@ -185,7 +185,7 @@
 				
 						<div class="ui-block-b">
 							<label for="docNumber">Documento:</label>
-							<input type="number"  id="docNumber" class='required' data-checkout="docNumber" />		
+							<input type="number" pattern="[0-9]*" id="docNumber" class='required' data-checkout="docNumber" />		
 						</div>
 					</fieldset>
 				</ul>
@@ -195,12 +195,12 @@
 			</fieldset>
 
 			<fieldset id="mp_datos_cliente">
-				<input type="hidden" pattern="[0-9]*" id="cardId" data-checkout="cardId"/>
+				<input type="hidden" id="cardId" data-checkout="cardId"/>
 			</fieldset>
 
 			<fieldset id="mp_datos_2">
 				<ul>
-				<a id="cardTitle"><img style="vertical-align:middle" class="mp_datos_cardlogo"><span id="mp_datos_conf_title"></span><span id="cardLast4"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+					<button id="cardTitle"><img style="vertical-align:middle" class="mp_datos_cardlogo"><span id="mp_datos_conf_title"></span><span id="cardLast4"></span> </button><!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>-->
 					<hr>
 
 					<div id="cardDetail">
@@ -210,7 +210,7 @@
 						<select id="installments" name="installments"></select>
 						</div>
 
-						<a id="mp_cuotas"></a>
+						<button id="mp_cuotas"></button>
 						
 						<div id="bancosDiv">
 						<select id="issuer" name="issuer"></select>
@@ -219,7 +219,7 @@
 					</div>
 					<hr>
 					<label for="securityCode">Código de seguridad</label>
-					<input type="password" id="securityCode" class='required' data-checkout="securityCode"/>					
+					<input type="password" pattern="[0-9]*" id="securityCode" class='required' data-checkout="securityCode"/>					
 				</ul>
 				<div id="mp_datos_submit">
 					<input type="submit" id="paySubmit" value="Confirmar" />

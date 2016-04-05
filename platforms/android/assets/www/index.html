@@ -195,12 +195,12 @@
 			</fieldset>
 
 			<fieldset id="mp_datos_cliente">
-				<input type="hidden" pattern="[0-9]*" id="cardId" data-checkout="cardId"/>
+				<input type="hidden" id="cardId" data-checkout="cardId"/>
 			</fieldset>
 
 			<fieldset id="mp_datos_2">
 				<ul>
-				<a id="cardTitle"><img style="vertical-align:middle" class="mp_datos_cardlogo"><span id="mp_datos_conf_title"></span><span id="cardLast4"></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+					<button id="cardTitle"><img style="vertical-align:middle" class="mp_datos_cardlogo"><span id="mp_datos_conf_title"></span><span id="cardLast4"></span> </button><!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>-->
 					<hr>
 
 					<div id="cardDetail">
@@ -210,7 +210,7 @@
 						<select id="installments" name="installments"></select>
 						</div>
 
-						<a id="mp_cuotas"></a>
+						<button id="mp_cuotas"></button>
 						
 						<div id="bancosDiv">
 						<select id="issuer" name="issuer"></select>
@@ -219,7 +219,7 @@
 					</div>
 					<hr>
 					<label for="securityCode">Código de seguridad</label>
-					<input type="password" id="securityCode" class='required' data-checkout="securityCode"/>					
+					<input type="password" pattern="[0-9]*" id="securityCode" class='required' data-checkout="securityCode"/>					
 				</ul>
 				<div id="mp_datos_submit">
 					<input type="submit" id="paySubmit" value="Confirmar" />

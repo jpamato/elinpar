@@ -164,17 +164,23 @@ var serverCom = {
 
 					//$("#header").html(userID);
 					if(primerLogin){
-						navigator.notification.alert(
+						/*navigator.notification.alert(
 							mess,
 							function(){$("#placa").hide();serverCom.GetMPConfig();},
 							"",
 							'Aceptar'
-							);
+							);*/
+						serverCom.GetMPConfig(mess);
 						primerLogin=false;
-					}else{
-						$("#placa").hide();
-					}
-					
+					}else{						
+						/*navigator.notification.alert(
+							mess,
+							function(){$("#placa").hide();$.mobile.loading('hide');},
+							"",
+							'Aceptar'
+							);*/
+						setTimeout(function(){$("#placa").hide();$.mobile.loading('hide');}, 200);
+					}					
 				});			
 
 			}else{
@@ -186,13 +192,12 @@ var serverCom = {
 					);
 			}
 
-			setTimeout(function(){$("#placa").hide();$.mobile.loading('hide');}, 200);
+			//setTimeout(function(){$("#placa").hide();$.mobile.loading('hide');}, 200);
 		};
 		serverCom.request();
 	},
 
-	GetMPConfig : function(){
-		//$("#toMP").hide();
+	GetMPConfig : function(mess){		
 		//var user = CryptoJS.AES.decrypt(localStorage.getItem("user"), device.uuid);
 		var user = localStorage.getItem("user");
 		serverCom.soapRequest = soapBeg+
@@ -239,14 +244,16 @@ var serverCom = {
 						}						
 						$("#montos_fijos").html(option);
 					}else{
-						var min = config.find('Range').find('Min').text();
-						var max = config.find('Range').find('Max').text();
-						var step = config.find('Range').find('Step').text();
+						var min = parseInt(config.find('Range').find('Min').text());
+						var max = parseInt(config.find('Range').find('Max').text());
+						var step = parseInt(config.find('Range').find('Step').text());						
+					
 						var option = '';
-						while(min<max){
-							option += '<option value="'+min + '">' + min + '</option>';
+						while(min<=max){						
+							option += '<option value="'+(min/100).toFixed(2)+'">$ '+(min/100).toFixed(2)+'</option>';
 							min+=step;
-						}
+						}						
+						
 						$("#montos_fijos").html(option);
 					}
 					merpago.init(key);
@@ -257,9 +264,24 @@ var serverCom = {
 							'Mensaje del Sistema',
 							'Aceptar'
 							);*/
-
+					
+					$("#toMP").show();
+					navigator.notification.alert(
+							mess,
+							function(){$.mobile.loading('hide');$("#placa").hide();},
+							"",
+							'Aceptar'
+							);
+					//setTimeout(function(){$("#placa").hide();$.mobile.loading('hide');}, 50);
 				}else{
-					$("#toMP").hide();					
+					$("#toMP").hide();
+					navigator.notification.alert(
+						mess,
+						function(){$.mobile.loading('hide');$("#placa").hide();},
+						"",
+						'Aceptar'
+						);
+					//setTimeout(function(){$("#placa").hide();$.mobile.loading('hide');}, 50);
 				}
 			}else{
 				navigator.notification.alert(

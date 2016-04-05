@@ -51,22 +51,37 @@
 	width:90%;
 	height:40px;
         margin-left: 5%;
+	border-radius:4px;
+	-webkit-border-radius:4px;
+	background-color:#eee;
 }
 
 #mp_medios_cliente button{
 	text-align:left;
-	font-size:18px;
+	//font-size:18px;
 	width:90%;
 	height:40px;
         margin-left: 5%;
-	border:0px;
-	background-color:#fff;
+	border:solid 1px white;
+	background-color:#eee;
 }
 
-#mp_datos_submit .ui-btn{
-	width:80%;	
-	margin-left:11%;
+/*#cardTitle .ui-btn{
+	border: hidden 0px white;
+	background-color:white;
+	padding:0px;
+	text-align:left;
+}*/
+
+#clientCardButton{
+	font-size:14px;	
 }
+
+#otherClientCard{
+	font-size:18px;
+}
+
+
 
 #merpago .left{	
 	float: left;
@@ -77,7 +92,18 @@
 }
 #mp_datos{
 	text-align:left;
-	margin-left:-10%;
+	//margin-left:-10%;
+}
+#mp_datos_continue .ui-btn{
+	//width:90%;
+	//margin-left:10%;
+}
+#mp_datos_submit .ui-btn{
+	//width:80%;	
+	//margin-left:11%;
+}
+#mp_datos ul{
+	padding:0px;
 }
 #mp_datos_exp div.ui-input-text{ width: 50px !important; height: 30px; }
 
@@ -88,10 +114,7 @@
 	font-size:11px;
 }
 
-#mp_datos_continue .ui-btn{
-	width:90%;
-	margin-left:10%;
-}
+
 
 #cardExpirationMonth{float: left;}
 #cardExpirationYear{float: right;}

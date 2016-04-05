@@ -70,20 +70,21 @@ var merpago = (function(){
 				$("#mp_check_card").html('<div class=left><img src='+payMethodInfo[0].thumbnail+'></div><span class=right>'+payMethodInfo[0].name+'</span>');
 				$("#mp_check_opN").html(parseInt(JSON.parse(response.responseText).id));
 				$("#mp_check_fechaIn").html(getMPTimeFormat(JSON.parse(response.responseText).date_approved));
+				$.mobile.loading('hide');
+				$("#placaMP").hide();
 
-			
 			}else if(JSON.parse(response.responseText).status==="in_process")
 				if(JSON.parse(response.responseText).status_detail==="pending_contingency")
 					navigator.notification.alert(			
 					"Estamos procesando el pago. En menos de una hora te enviaremos por e-mail el resultado.",
-					function(){app.mainMenu();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Cargar Crédito',
 					'Aceptar'
 					);
 				else if(JSON.parse(response.responseText).status_detail==="pending_review_manual")
 					navigator.notification.alert(			
 					"Estamos procesando el pago. En menos de 2 días hábiles te diremos por e-mail si se acreditó o si necesitamos más información.",
-					function(){app.mainMenu();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Cargar Crédito',
 					'Aceptar'
 					);
@@ -91,98 +92,98 @@ var merpago = (function(){
 				if(JSON.parse(response.responseText).status_detail==="cc_rejected_bad_filled_card_number")
 					navigator.notification.alert(			
 					"Revisa el número de tarjeta.",
-					function(){app.mainMenu();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Cargar Crédito',
 					'Aceptar'
 					);
 				else if(JSON.parse(response.responseText).status_detail==="cc_rejected_bad_filled_date")
 					navigator.notification.alert(			
 					"Revisa la fecha de vencimiento.",
-					function(){app.mainMenu();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Cargar Crédito',
 					'Aceptar'
 					);
 				else if(JSON.parse(response.responseText).status_detail==="cc_rejected_bad_filled_security_code")
 					navigator.notification.alert(			
 					"Revisa el código de seguridad.",
-					function(){app.mainMenu();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Cargar Crédito',
 					'Aceptar'
 					);
 				else if(JSON.parse(response.responseText).status_detail==="cc_rejected_blacklist")
 					navigator.notification.alert(			
 					"No pudimos procesar tu pago.",
-					function(){app.mainMenu();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Cargar Crédito',
 					'Aceptar'
 					);
 				else if(JSON.parse(response.responseText).status_detail==="cc_rejected_call_for_authorize")
 					navigator.notification.alert(			
 					"Debes autorizar ante "+JSON.parse(response.responseText).payment_method_id+" el pago de $"+JSON.parse(response.responseText).transaction_amount+" a MercadoPago",
-					function(){app.mainMenu();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Cargar Crédito',
 					'Aceptar'
 					);
 				else if(JSON.parse(response.responseText).status_detail==="cc_rejected_card_disabled")
 					navigator.notification.alert(			
 					"Llama a "+JSON.parse(response.responseText).payment_method_id+" para que active tu tarjeta. El teléfono está al dorso de tu tarjeta.",
-					function(){app.mainMenu();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Cargar Crédito',
 					'Aceptar'
 					);
 				else if(JSON.parse(response.responseText).status_detail==="cc_rejected_card_error")
 					navigator.notification.alert(			
 					"No pudimos procesar tu pago.",
-					function(){app.mainMenu();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Cargar Crédito',
 					'Aceptar'
 					);
 				else if(JSON.parse(response.responseText).status_detail==="cc_rejected_duplicated_payment")
 					navigator.notification.alert(			
 					"Ya hiciste un pago por ese valor. Si necesitas volver a pagar usa otra tarjeta u otro medio de pago.",
-					function(){app.mainMenu();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Cargar Crédito',
 					'Aceptar'
 					);
 				else if(JSON.parse(response.responseText).status_detail==="cc_rejected_high_risk")
 					navigator.notification.alert(			
 					"Tu pago fue rechazado. Elige otro de los medios de pago, te recomendamos con medios en efectivo.",
-					function(){app.mainMenu();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Cargar Crédito',
 					'Aceptar'
 					);
 				else if(JSON.parse(response.responseText).status_detail==="cc_rejected_insufficient_amount")
 					navigator.notification.alert(			
 					"Tu "+JSON.parse(response.responseText).payment_method_id+" no tiene fondos suficientes.",
-					function(){app.mainMenu();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Cargar Crédito',
 					'Aceptar'
 					);
 				else if(JSON.parse(response.responseText).status_detail==="cc_rejected_invalid_installments")
 					navigator.notification.alert(			
 					JSON.parse(response.responseText).payment_method_id+" no procesa pagos en "+JSON.parse(response.responseText).installments+" cuotas.",
-					function(){app.mainMenu();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Cargar Crédito',
 					'Aceptar'
 					);
 				else if(JSON.parse(response.responseText).status_detail==="cc_rejected_max_attempts")
 					navigator.notification.alert(			
 					"Llegaste al límite de intentos permitidos. Elige otra tarjeta u otro medio de pago.",
-					function(){app.mainMenu();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Cargar Crédito',
 					'Aceptar'
 					);
 				else if(JSON.parse(response.responseText).status_detail==="cc_rejected_other_reason")
 					navigator.notification.alert(			
 					JSON.parse(response.responseText).payment_method_id+" no procesó el pago.",
-					function(){app.mainMenu();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Cargar Crédito',
 					'Aceptar'
 					);
 		}else
 			navigator.notification.alert(				
 				JSON.parse(response.responseText).message,
-				function(){app.mainMenu();},
+				function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 				'Cargar Crédito',
 				'Aceptar'
 				);
@@ -247,7 +248,7 @@ var merpago = (function(){
 
 			mpRequest.card_token = 1;
 			
-			$("#toMP").show();
+			//$("#toMP").show();
       			
 			var mpCTokenResponse = function(status, response) {
         			var $form = $('#pay');
@@ -294,6 +295,13 @@ var merpago = (function(){
 								'Aceptar'
 							);*/
 
+					$.mobile.loading( "show", {
+						text: "Espere un momento por favor",
+						textVisible: true,
+						theme: "b",
+						textonly: null,
+					html: ""   });
+					$("#placaMP").show();
 					payRequest();
 			        }else{
 					var txt = "";
@@ -352,6 +360,12 @@ var merpago = (function(){
 				$( ".mp_cardButton" ).unbind('click').click( function(){
 					$("#header").html("Ingresa los datos de tu tarjeta");
 					merpago.setPayMethod($(this).val());
+
+					app.backButton(function(){						
+						$("#mp_datos").hide();
+						$("#mp_medios").show();						
+						app.backButton(merpago.backAccion);
+					});
 				});
 
 			}
@@ -360,13 +374,12 @@ var merpago = (function(){
 
 		setPayMethod: function(id){
 
-			setTimeout(function(){
-					$.mobile.loading( "show", {
-					text: "Espere un momento por favor",
-					textVisible: true,
-					theme: "b",
-					textonly: null,
-					html: ""   });}, 20);
+			$.mobile.loading( "show", {
+			text: "Espere un momento por favor",
+			textVisible: true,
+			theme: "b",
+			textonly: null,
+			html: ""   });
 
 			Mercadopago.getPaymentMethod({"payment_method_id": id
 			}, payMethodResponse);
@@ -414,7 +427,7 @@ var merpago = (function(){
 				}else{
 					navigator.notification.alert(
 					"No fue posible conectarse al servidor. Por favor reintente más tarde.",
-					function(){app.mainMenu();$("#placaMP").hide();},
+					function(){$.mobile.loading('hide');$("#placaMP").hide();app.mainMenu();},
 					'Mensaje del Sistema',
 					'Aceptar'
 					);
@@ -458,18 +471,18 @@ var merpago = (function(){
 						$("#bancosDiv").show();	
 						Mercadopago.getIssuers(payMethodInfo[0].id, showCardIssuers);
 						addEvent(document.querySelector('#issuer'), 'change', setInstallmentsByIssuerId);						
-						setTimeout(function() {
+						/*setTimeout(function() {
 								var myselect2 = $("select#issuer");
 								myselect2[0].selectedIndex = 0;
 								myselect2.selectmenu("refresh");
-						},100);
+						},100);*/
 						
 					} else {
 						document.querySelector("#issuer").options.length = 0;
 						$("#bancosDiv").hide();						
 					}
 
-					setTimeout(function(){$("#placaMP").hide();$.mobile.loading('hide');}, 200);
+					setTimeout(function(){$("#cuotasDiv").hide();$("#placaMP").hide();$.mobile.loading('hide');}, 200);
 		},
 
 		showCuotas : function(installments){
@@ -518,8 +531,7 @@ var merpago = (function(){
 		},
 
 		mpClientHaveCards : function(){
-			if(mpClient.cards.length>0){
-							
+			if(mpClient.cards.length>0){							
 				return true;	
 			}else{
 				return false;
@@ -539,10 +551,10 @@ var merpago = (function(){
 			$("#cardLast4").html(card.last_four_digits);
 			merpago.setIssuers(card.first_six_digits);
 			$("#mp_datos_1").hide();		
+			app.backButton(merpago.backAccion);
 		},
 
 		showClientCards : function(){
-			$("#mp_medios_cliente").show();	
 			var buttons = '';
 			
 			$.each(mpClient.cards, function(i, v) {
@@ -559,13 +571,12 @@ var merpago = (function(){
 			$("#header").html("Medios de Pago");
 
 			$( ".clientCardButton" ).unbind('click').click( function(){
-				setTimeout(function(){
 				    $.mobile.loading( "show", {
 			            text: "Espere un momento por favor",
 			            textVisible: true,
 			            theme: "b",
 			            textonly: null,
-			            html: ""   });}, 20);
+			            html: ""   });
 				$("#placaMP").show();
 
 				var v = $(this).val();				
@@ -590,10 +601,19 @@ var merpago = (function(){
 				myselect.selectmenu("refresh");	
 				$("#mp_medios_cliente").hide();
 				$("#cardId").val("");
+
+				app.backButton(function(){
+					$("#mp_medios").hide();
+					$("#mp_medios_cliente").show();				
+					app.backButton(merpago.backAccion);
+				});
+
 				event.preventDefault();
 				event.stopImmediatePropagation();
 			});
 		},
+
+		backAccion: function(){},
 
 		monto: ''
 	};
@@ -623,7 +643,6 @@ var merpago = (function(){
 			selectorInstallments.removeAttribute('disabled');
 		}
 
-		$("#cuotasDiv").hide();
 	};
 
 	function clearOptions() {
@@ -659,7 +678,11 @@ var merpago = (function(){
 		}
 		issuersSelector.appendChild(fragment);
 		issuersSelector.removeAttribute('disabled');
-		document.querySelector("#issuer").removeAttribute('style');		
+		document.querySelector("#issuer").removeAttribute('style');
+
+		var myselect2 = $("select#issuer");
+		myselect2[0].selectedIndex = 0;
+		myselect2.selectmenu("refresh");
 	};
 
 	function setInstallmentsByIssuerId(status, response) {

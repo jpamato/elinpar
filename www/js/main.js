@@ -30,9 +30,14 @@ var app = {
     onDeviceReady: function() {
 	//$("#header").html("init");
 	var h = $(window).height()-$("#header").height()-2*$("#borderTop").height();
-	var w = $(window).width();
+	//var w = $(window).width();
+	//var bw = $(document.body).width()*0.94;
 
-	$("#placa").css("height",h+"px");
+	//$("#placa").css("height",h+"px");
+	
+	//var ew = $("#estacionar").width();
+	$("#back").css("width",$(document.body).width()*0.93+"px");
+
 	$("#navlist").css("height",h+"px");
 	$("#cerrar").css("height",h+"px");
 	$("#estacionar").css("height",h+"px");
@@ -40,9 +45,13 @@ var app = {
 	$("#saldo").css("height",h+"px");
 	$("#ultimos").css("height",h+"px");
 	$("#merpago").css("height",h+"px");
+
+	$("#placa").css("height",$(window).height()+"px");
+	$("#placa").css("position","fixed");
+
+	$('body').css("position","fixed");
+
 	
-	var w = $("#estacionar").width();
-	$("#back").css("width",w+"px");
 
 	app.autoLogin();
 	app.menuInit();
@@ -50,7 +59,7 @@ var app = {
     },
 
     menuInit: function(){
-	$("#toMP").hide();
+	//$("#toMP").hide();
 	$( "#estacionaForm" ).submit(function( event ) {
 		var domain = $("#patenteInE").is(":visible") ? $( "input#patenteInE" ).val() : $( "select#selPatenteE" ).val();
 
@@ -106,6 +115,54 @@ var app = {
 		event.stopImmediatePropagation();		
 	});
 
+
+
+	
+	
+	$( "#selPatenteE" ).change(function() {
+ 		if($( "select#selPatenteE" ).val()=="Otra"){
+			$("#patenteInE").show();
+			$("#labelPInE").show();		
+		}else{
+			$("#patenteInE").hide();		
+			$("#labelPInE").hide();		
+		}
+	});
+
+	$( "#selPatenteC" ).change(function() {
+ 		if($( "select#selPatenteC" ).val()=="Otra"){
+			$("#patenteInC").show();
+			$("#labelPInC").show();		
+		}else{
+			$("#patenteInC").hide();		
+			$("#labelPInC").hide();		
+		}
+	});
+
+	var toMP_montos = function(){
+		$('#pay')[0].reset();
+		$("#mp_cuotas").show();
+		$("#header").html("Recarga de Saldo");
+		$("#navlist").hide();
+		$("#merpago").show();
+		$("#mp_monto").show();
+		//$("#mp_monto").hide();
+		$("#mp_medios").hide();
+		$("#mp_datos_cliente").hide();
+		$("#mp_medios_cliente").hide();
+		$("#mp_datos").hide();
+		//$("#mp_datos").show();
+		$("#mp_datos_1").show();
+		$("#mp_datos_2").hide();
+		$("#mp_exito").hide();
+		app.backButton(app.mainMenu);
+		$("#back").show();
+		$("#placaMP").hide();
+		var myselect = $("select#montos_fijos");
+		myselect[0].selectedIndex = 0;
+		myselect.selectmenu("refresh");
+	};
+
 	$( "#mp_monto_Form" ).submit(function( event ) {
 			
 		//$( "select#montos_fijos" ).val();
@@ -118,6 +175,7 @@ var app = {
 		$("#placaMP").show();
 		if(merpago.mpClientHaveCards()){
 			$("#header").html("Pagar");
+			merpago.backAccion = toMP_montos;
 			merpago.setDefaultMpCard();
 			merpago.showCuotas(mpJsonPrefs.default_installments);
 		}else{
@@ -128,6 +186,7 @@ var app = {
 			myselect.selectmenu("refresh");
 			$("#placaMP").hide();
 		}
+		app.backButton(toMP_montos);	
 		event.preventDefault();
 		event.stopImmediatePropagation();		
 	});
@@ -135,23 +194,19 @@ var app = {
 	$( "#cardTitle" ).unbind('click').click( function(){
 		if(merpago.mpClientHaveCards()){
 			$("#mp_datos").hide();
+			$("#mp_medios_cliente").show();
 			merpago.showClientCards();
+			app.backButton(function(){
+				$("#header").html("Pagar");
+				$("#mp_medios_cliente").hide();
+				$("#mp_datos").show();
+				app.backButton(toMP_montos);
+			});	
 		}
 
 		event.preventDefault();
 		event.stopImmediatePropagation();
-	});
-
-	/*$( ".required" ).focusin(function() {
-		var id = $(this).attr('id');
-		//console.log(id);
-		navigator.notification.alert(
-				id,
-				null,
-				'Mensaje del Sistema',
-				'Aceptar'
-				);
-	});*/
+	});	
 
 	$( ".required" ).focusout(function() {
 		
@@ -182,13 +237,12 @@ var app = {
 	$( "#mp_continuar" ).unbind('click').click( function(){
 		if(merpago.checkValidation(0)){
 			$("#header").html("Pagar");
-			setTimeout(function(){
-				    $.mobile.loading( "show", {
+			$.mobile.loading( "show", {
 			            text: "Espere un momento por favor",
 			            textVisible: true,
 			            theme: "b",
 			            textonly: null,
-			            html: ""   });}, 20);
+			            html: ""   });
 			$("#placaMP").show();
 			$("#mp_datos_2").show();
 			$("#mp_cuotas").show();
@@ -201,6 +255,7 @@ var app = {
 
 			$("#mp_datos_1").hide();			
 		}
+		app.backButton(app.mainMenu);
 		event.preventDefault();
 		event.stopImmediatePropagation();
 	});
@@ -215,38 +270,6 @@ var app = {
 				);*/
 		$("#mp_cuotas").html($(this).children("option").filter(":selected").text());
 	});
-
-	$( "button#back" ).unbind('click').click( function(){
-		app.mainMenu();
-	});
-	
-	$( "#selPatenteE" ).change(function() {
- 		if($( "select#selPatenteE" ).val()=="Otra"){
-			$("#patenteInE").show();
-			$("#labelPInE").show();		
-		}else{
-			$("#patenteInE").hide();		
-			$("#labelPInE").hide();		
-		}
-	});
-
-	$( "#selPatenteC" ).change(function() {
- 		if($( "select#selPatenteC" ).val()=="Otra"){
-			$("#patenteInC").show();
-			$("#labelPInC").show();		
-		}else{
-			$("#patenteInC").hide();		
-			$("#labelPInC").hide();		
-		}
-	});
-
-	$(":input").keypress(function (e) {
- 		 if (e.which == 13) {
-		 	var inputs = $(this).closest('form').find(':input');
-       			inputs.eq(inputs.index(this) + 1).focus();
-		    	return false;    //<---- Add this line
-		 }
-	});
 	
 	$("#mp_cuotas").unbind('click').click( function(){
 		$("#cuotasDiv").show();
@@ -254,6 +277,14 @@ var app = {
 		myselect1[0].selectedIndex = 0;
 		myselect1.selectmenu("refresh");
 		$("#mp_cuotas").hide();
+	});
+	
+	$(":input").keypress(function (e) {
+ 		 if (e.which == 13) {
+		 	var inputs = $(this).closest('form').find(':input');
+       			inputs.eq(inputs.index(this) + 1).focus();
+		    	return false;    //<---- Add this line
+		 }
 	});
 
 	app.mainMenu();
@@ -267,12 +298,14 @@ var app = {
 		var myselect = $("select#selPatenteE");
 		myselect[0].selectedIndex = 0;
 		myselect.selectmenu("refresh");
+		app.backButton(app.mainMenu);
 		$("#back").show();
 	});
 	$("#toSaldo").unbind('click').click( function(){
 		$("#saldo").hide();
 		$("#header").html("Consulta de Saldo");
 		$("#navlist").hide();		
+		app.backButton(app.mainMenu);
 		$("#back").show();
 		setTimeout(function(){$("#placa").show();
 				    $.mobile.loading( "show", {
@@ -288,6 +321,7 @@ var app = {
 		$("#navlist").hide();
 		$("#ultimos").show();
 		$("#placaUlt").show();
+		app.backButton(app.mainMenu);
 		$("#back").show();
 		setTimeout(function(){$("#placa").show();
 				    $.mobile.loading( "show", {
@@ -302,6 +336,7 @@ var app = {
 		$("#header").html("Asociar Raspadita");
 		$("#navlist").hide();
 		$("#raspadita").show();
+		app.backButton(app.mainMenu);
 		$("#back").show();
 	});
 	$("#toCerrar").unbind('click').click( function(){
@@ -313,42 +348,12 @@ var app = {
 		var myselect = $("select#selPatenteC");
 		myselect[0].selectedIndex = 0;
 		myselect.selectmenu("refresh");
+		app.backButton(app.mainMenu);
 		$("#back").show();
-	});
-
+	});	
 
 	$("#toMP").unbind('click').click( function(){
-		$('#pay')[0].reset();
-		$("#mp_cuotas").show();
-		$("#header").html("Recarga de Saldo");
-		$("#navlist").hide();
-		$("#merpago").show();
-		$("#mp_monto").show();
-		//$("#mp_monto").hide();
-		$("#mp_medios").hide();
-		$("#mp_datos_ciente").hide();
-		$("#mp_datos").hide();
-		//$("#mp_datos").show();
-		$("#mp_datos_1").show();
-		$("#mp_datos_2").hide();
-		$("#mp_exito").hide();
-		$("#back").show();
-		$("#placaMP").hide();
-		var myselect = $("select#montos_fijos");
-		myselect[0].selectedIndex = 0;
-		myselect.selectmenu("refresh");
-
-		/*$("#header").html("¡Felicitaciones!");
-		$("#navlist").hide();
-		$("#merpago").show();		
-		$("#mp_monto").hide();
-		$("#mp_medios").hide();
-		$("#mp_datos_ciente").hide();
-		$("#mp_datos").hide();		
-		$("#mp_datos_1").hide();
-		$("#mp_datos_2").hide();
-		$("#mp_exito").show();
-		$("#placaMP").hide();*/
+		toMP_montos();		
 	});
 	
 	/*$("#reset").click( function(){
@@ -380,6 +385,10 @@ var app = {
 	$("#navlist").show();
 	$("#back").hide();
     },
+
+    backButton : function(backTo){	
+	$( "button#back" ).unbind('click').click( backTo );
+    },    
 
     autoLogin : function(){
 	    	if(primerLogin){

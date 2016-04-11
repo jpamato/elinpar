@@ -49,6 +49,7 @@ var merpago = (function(){
 	};
 	
 	var onPayComplete = function (response, status){			
+		app.backButton(app.mainMenu);
 		if(status=="success"){
 
 			if(JSON.parse(response.responseText).status==="approved"){
@@ -725,10 +726,11 @@ var merpago = (function(){
 		var myDate = new Date();
 		var dif = sourceTZmin + myDate.getTimezoneOffset();
 		var difHour = Math.floor(dif/60);
-		var difMin = dif-difHour;
+		var difMin = dif-difHour*60;
 
 		var destHour = sourceHour-difHour;
-		var destMin = (sourceMin-difMin)%60;
+		var destMin = (60+(sourceMin-difMin))%60;
+		var destMin = sourceMin;		
 
 		return day+"/"+month+"/"+year+" - "+destHour+":"+destMin;
 	};

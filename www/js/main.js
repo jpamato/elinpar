@@ -1,6 +1,9 @@
 primerLogin=true;
 var app = {
     // Application Constructor
+
+    nextLogin:'',
+
     init: function() {
         this.bindEvents();
 
@@ -15,7 +18,7 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', app.onDeviceReady);
-	document.addEventListener("resume", app.autoLogin, false);
+	document.addEventListener("resume", function(){ app.autoLogin(false)}, false);
 	/*$(document).on("keypress", "form", function(event) { 
 		$(this).next(':input').focus();
    		return event.keyCode != 13;
@@ -53,7 +56,7 @@ var app = {
 
 	
 
-	app.autoLogin();
+	app.autoLogin(false);
 	app.menuInit();
 	
     },
@@ -277,6 +280,8 @@ var app = {
 		myselect1[0].selectedIndex = 0;
 		myselect1.selectmenu("refresh");
 		$("#mp_cuotas").hide();
+		event.preventDefault();
+		event.stopImmediatePropagation();
 	});
 	
 	$(":input").keypress(function (e) {
@@ -390,20 +395,23 @@ var app = {
 	$( "button#back" ).unbind('click').click( backTo );
     },    
 
-    autoLogin : function(){
+    autoLogin : function(silent){
 	    	if(primerLogin){
 			login.init();
 		}else{			
-			$("#placa").show();
-			$.mobile.loading( "show", {
+			clearTimeout(nextLogin);
+			if(!silent){
+				$("#placa").show();
+				$.mobile.loading( "show", {
 					    text: "Espere un momento por favor",
 					    textVisible: true,
 					    theme: "b",
 					    textonly: null,
 					    html: ""   });
+			}
 			login.login();			
 		}
-	 setTimeout(app.autoLogin, 570000);
+	 nextLogin = setTimeout(function(){ app.autoLogin(true)}, 570000);
     },
 
     resetApp : function(buttonIndex){
